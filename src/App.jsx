@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
 import StartWalkPage from './pages/StartWalkPage'
 import PublicWalkPage from './pages/PublicWalkPage'
+import MyWalksPage from './pages/MyWalksPage'
 import ProtectedRoute from './components/ProtectedRoute'
 
 export default function App() {
