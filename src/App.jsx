@@ -7,6 +7,7 @@ import StartWalkPage from './pages/StartWalkPage'
 import PublicWalkPage from './pages/PublicWalkPage'
 import MyWalksPage from './pages/MyWalksPage'
 import ProtectedRoute from './components/ProtectedRoute'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 
 export default function App() {
   const [session, setSession] = useState(undefined)
@@ -39,6 +40,7 @@ export default function App() {
           path="/login"
           element={session ? <Navigate to="/" replace /> : <LoginPage />}
         />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route
           path="/"
           element={
