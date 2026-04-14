@@ -53,6 +53,29 @@ export default function DashboardPage() {
     setLoadingWalks(false)
   }
 
+  const handleReturnWalk = async (walk) => {
+    const confirm = window.confirm(
+      `Return ${walk.dog_name}?`
+    )
+
+    if (!confirm) return
+
+    const { error } = await supabase.rpc('return_walk', {
+      p_walk_id: walk.walk_id,
+      p_public_token: walk.public_token,
+      p_return_notes: 'Returned by volunteer'
+    })
+
+    if (error) {
+      alert(error.message)
+      return
+    }
+
+    // refresh data
+    await loadActiveWalks()
+    await loadDogs()
+  }
+
   const handleLogout = async () => {
     await supabase.auth.signOut()
   }
@@ -98,6 +121,7 @@ export default function DashboardPage() {
                   <th style={thStyle}>Checked out</th>
                   <th style={thStyle}>Expected return</th>
                   <th style={thStyle}>Status</th>
+                  <th style={thStyle}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -122,6 +146,21 @@ export default function DashboardPage() {
                       ) : (
                         <span>Active</span>
                       )}
+                    </td>
+                    <td style={tdStyle}>
+                      <button
+                        onClick={() => handleReturnWalk(walk)}
+                        style={{
+                          background: '#ff4d4f',
+                          color: 'white',
+                          border: 'none',
+                          padding: '0.5rem 0.8rem',
+                          borderRadius: '6px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Return Dog
+                      </button>
                     </td>
                   </tr>
                 ))}
