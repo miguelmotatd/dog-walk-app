@@ -1,0 +1,121 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "refresh": "Refresh",
+    "back": "Back",
+    "logout": "Logout",
+    "search": "Search",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "language": {
+    "english": "English",
+    "portuguese": "Português"
+  },
+  "login": {
+    "title": "Volunteer Login",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "loggingIn": "Logging in...",
+    "forgotPassword": "Forgot password?",
+    "backToLogin": "Back to login",
+    "sendResetEmail": "Send reset email",
+    "sending": "Sending...",
+    "resetEmailSent": "Password reset email sent. Please check your inbox."
+  },
+  "resetPassword": {
+    "title": "Reset password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "updatePassword": "Update password",
+    "updating": "Updating...",
+    "passwordsDoNotMatch": "Passwords do not match.",
+    "passwordTooShort": "Password must have at least 6 characters.",
+    "updated": "Password updated successfully. Redirecting to login..."
+  },
+  "dashboard": {
+    "title": "Volunteer Dashboard",
+    "activeWalks": "Active Walks",
+    "dogs": "Dogs",
+    "noActiveWalks": "No dogs are currently out on a walk.",
+    "noDogs": "No dogs found.",
+    "walker": "Walker",
+    "phone": "Phone",
+    "checkedOut": "Checked out",
+    "expectedReturn": "Expected return",
+    "status": "Status",
+    "actions": "Actions",
+    "returnDog": "Return dog",
+    "returnByVolunteer": "Returned by volunteer",
+    "confirmReturn": "Return {{dogName}}?"
+  },
+  "dog": {
+    "status": "Status",
+    "size": "Size",
+    "age": "Age",
+    "summary": "Summary",
+    "available": "Available",
+    "out_on_walk": "Out on walk",
+    "unavailable": "Unavailable"
+  },
+  "startWalk": {
+    "title": "Start Walk",
+    "subtitle": "Register a dog walk before leaving the shelter.",
+    "loadingDogs": "Loading available dogs...",
+    "noDogs": "No dogs are currently available for walking.",
+    "dog": "Dog",
+    "selectDog": "Select a dog",
+    "yourName": "Your name",
+    "phoneNumber": "Phone number",
+    "emailOptional": "Email (optional)",
+    "expectedReturnTime": "Expected return time",
+    "checkoutNotesOptional": "Checkout notes (optional)",
+    "checkoutNotesPlaceholder": "Anything useful before leaving...",
+    "startWalk": "Start walk",
+    "startingWalk": "Starting walk..."
+  },
+  "publicWalk": {
+    "title": "Walk",
+    "missingWalkOrToken": "Missing walk id or token.",
+    "walkNotFound": "Walk not found.",
+    "walker": "Walker",
+    "checkedOut": "Checked out",
+    "expectedReturn": "Expected return",
+    "status": "Status",
+    "checkoutNotes": "Checkout notes",
+    "returnedAt": "Returned at",
+    "returnNotes": "Return notes",
+    "notesFromThisWalk": "Notes from this walk",
+    "noNotesYet": "No notes yet.",
+    "addNote": "Add note",
+    "noteType": "Note type",
+    "comment": "Comment",
+    "commentPlaceholder": "For example: afraid of motorcycles, loves the river, pulls on the leash...",
+    "savingNote": "Saving note...",
+    "addNoteButton": "Add note",
+    "returnDog": "Return dog",
+    "finalNotesOptional": "Final notes (optional)",
+    "finalNotesPlaceholder": "How did the walk go?",
+    "returningDog": "Returning dog...",
+    "returnDogButton": "Return dog",
+    "active": "Active",
+    "returned": "Returned",
+    "overdue": "Overdue"
+  },
+  "myWalks": {
+    "title": "My walks",
+    "subtitle": "Here you can see your active dog walks.",
+    "panelTitle": "My active walks",
+    "empty": "You do not have any active walks right now.",
+    "loading": "Loading walks...",
+    "openWalk": "Open walk"
+  },
+  "notes": {
+    "general": "General",
+    "behavior": "Behavior",
+    "warning": "Warning",
+    "preference": "Preference",
+    "route": "Route"
+  }
+}

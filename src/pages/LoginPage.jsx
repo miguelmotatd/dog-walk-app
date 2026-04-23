@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
+import LanguageSwitcher from '../components/LanguageSwitcher'
 
 export default function LoginPage() {
+  const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -20,10 +23,7 @@ export default function LoginPage() {
       password,
     })
 
-    if (error) {
-      setErrorMessage(error.message)
-    }
-
+    if (error) setErrorMessage(error.message)
     setLoading(false)
   }
 
@@ -45,7 +45,7 @@ export default function LoginPage() {
     if (error) {
       setErrorMessage(error.message)
     } else {
-      setInfoMessage('Password reset email sent. Please check your inbox.')
+      setInfoMessage(t('login.resetEmailSent'))
     }
 
     setLoading(false)
@@ -53,12 +53,15 @@ export default function LoginPage() {
 
   return (
     <div style={{ padding: '2rem', maxWidth: '420px', margin: '0 auto' }}>
-      <h1>Volunteer Login</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+        <h1>{t('login.title')}</h1>
+        <LanguageSwitcher />
+      </div>
 
       {!showReset ? (
         <form onSubmit={handleLogin}>
           <div style={{ marginBottom: '1rem' }}>
-            <label>Email</label>
+            <label>{t('login.email')}</label>
             <br />
             <input
               type="email"
@@ -70,7 +73,7 @@ export default function LoginPage() {
           </div>
 
           <div style={{ marginBottom: '1rem' }}>
-            <label>Password</label>
+            <label>{t('login.password')}</label>
             <br />
             <input
               type="password"
@@ -85,7 +88,7 @@ export default function LoginPage() {
           {infoMessage && <p style={{ color: 'green' }}>{infoMessage}</p>}
 
           <button type="submit" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? t('login.loggingIn') : t('login.login')}
           </button>
 
           <div style={{ marginTop: '1rem' }}>
@@ -105,14 +108,14 @@ export default function LoginPage() {
                 textDecoration: 'underline',
               }}
             >
-              Forgot password?
+              {t('login.forgotPassword')}
             </button>
           </div>
         </form>
       ) : (
         <form onSubmit={handleResetPassword}>
           <div style={{ marginBottom: '1rem' }}>
-            <label>Email</label>
+            <label>{t('login.email')}</label>
             <br />
             <input
               type="email"
@@ -127,7 +130,7 @@ export default function LoginPage() {
           {infoMessage && <p style={{ color: 'green' }}>{infoMessage}</p>}
 
           <button type="submit" disabled={loading}>
-            {loading ? 'Sending...' : 'Send reset email'}
+            {loading ? t('login.sending') : t('login.sendResetEmail')}
           </button>
 
           <div style={{ marginTop: '1rem' }}>
@@ -147,7 +150,7 @@ export default function LoginPage() {
                 textDecoration: 'underline',
               }}
             >
-              Back to login
+              {t('login.backToLogin')}
             </button>
           </div>
         </form>

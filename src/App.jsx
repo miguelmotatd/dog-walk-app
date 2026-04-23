@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { supabase } from './lib/supabase'
+
+import ProtectedRoute from './components/ProtectedRoute'
+
 import LoginPage from './pages/LoginPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 import DashboardPage from './pages/DashboardPage'
 import StartWalkPage from './pages/StartWalkPage'
 import PublicWalkPage from './pages/PublicWalkPage'
 import MyWalksPage from './pages/MyWalksPage'
-import ProtectedRoute from './components/ProtectedRoute'
-import ResetPasswordPage from './pages/ResetPasswordPage'
 
 export default function App() {
   const [session, setSession] = useState(undefined)
@@ -17,12 +19,14 @@ export default function App() {
       setSession(data.session)
     })
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, newSession) => {
       setSession(newSession)
     })
 
     return () => {
-      listener.subscription.unsubscribe()
+      subscription.unsubscribe()
     }
   }, [])
 
@@ -36,11 +40,13 @@ export default function App() {
         <Route path="/start-walk" element={<StartWalkPage />} />
         <Route path="/walk/:walkId" element={<PublicWalkPage />} />
         <Route path="/my-walks" element={<MyWalksPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+
         <Route
           path="/login"
           element={session ? <Navigate to="/" replace /> : <LoginPage />}
         />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+
         <Route
           path="/"
           element={
@@ -48,6 +54,11 @@ export default function App() {
               <DashboardPage />
             </ProtectedRoute>
           }
+        />
+
+        <Route
+          path="*"
+          element={<Navigate to={session ? '/' : '/login'} replace />}
         />
       </Routes>
     </BrowserRouter>

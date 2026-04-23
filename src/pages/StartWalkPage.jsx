@@ -1,8 +1,14 @@
-import { useEffect, useMemo, useState } from 'react'
-import { supabase } from '../lib/supabase'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { supabase } from '../lib/supabase'
+import DogCard from '../components/DogCard'
+import LanguageSwitcher from '../components/LanguageSwitcher'
 
 export default function StartWalkPage() {
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+
   const [dogs, setDogs] = useState([])
   const [loadingDogs, setLoadingDogs] = useState(true)
   const [dogsError, setDogsError] = useState('')
@@ -17,16 +23,9 @@ export default function StartWalkPage() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
 
-  const navigate = useNavigate()
-
   useEffect(() => {
     loadAvailableDogs()
   }, [])
-
-  const selectedDog = useMemo(
-    () => dogs.find((dog) => String(dog.id) === String(dogId)),
-    [dogs, dogId]
-  )
 
   const loadAvailableDogs = async () => {
     setLoadingDogs(true)
@@ -34,7 +33,7 @@ export default function StartWalkPage() {
 
     const { data, error } = await supabase
       .from('dogs')
-      .select('id, name, status, size, age_text, notes_summary')
+      .select('id, name, status, size, age_text, notes_summary, is_active')
       .eq('is_active', true)
       .eq('status', 'available')
       .order('name', { ascending: true })
@@ -71,151 +70,127 @@ export default function StartWalkPage() {
 
     const walk = Array.isArray(data) ? data[0] : data
 
+    if (walk?.person_public_token) {
+      localStorage.setItem('person_public_token', walk.person_public_token)
+    }
+
     if (walk) {
-      if (walk?.person_public_token) {
-        localStorage.setItem('person_public_token', walk.person_public_token)
-      }
       navigate(`/walk/${walk.walk_id}?token=${walk.public_token}`)
       return
     }
 
-    setDogId('')
-    setPersonName('')
-    setPhone('')
-    setEmail('')
-    setCheckoutNotes('')
-    setExpectedReturnAt(getDefaultReturnTime())
-
-    await loadAvailableDogs()
     setSubmitting(false)
   }
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '760px', margin: '0 auto' }}>
-      <h1>Start Walk</h1>
-      <p>Register a dog walk before leaving the shelter.</p>
+    <div style={pageStyle}>
+      <div style={headerRowStyle}>
+        <div>
+          <h1 style={titleStyle}>{t('startWalk.title')}</h1>
+          <p style={subtitleStyle}>{t('startWalk.subtitle')}</p>
+        </div>
+        <LanguageSwitcher />
+      </div>
 
-      {loadingDogs && <p>Loading available dogs...</p>}
-      {dogsError && <p style={{ color: 'crimson' }}>{dogsError}</p>}
+      <div style={sectionStyle}>
+        <h2 style={sectionTitleStyle}>{t('startWalk.dog')}</h2>
 
-      {!loadingDogs && !dogsError && dogs.length === 0 && (
-        <p>No dogs are currently available for walking.</p>
-      )}
+        {loadingDogs && <p>{t('startWalk.loadingDogs')}</p>}
+        {dogsError && <p style={errorStyle}>{dogsError}</p>}
 
-      {!loadingDogs && !dogsError && dogs.length > 0 && (
-        <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '1rem' }}>
-          <div>
-            <label>Dog</label>
-            <br />
-            <select
-              value={dogId}
-              onChange={(e) => setDogId(e.target.value)}
-              required
-              style={{ width: '100%', padding: '0.6rem' }}
-            >
-              <option value="">Select a dog</option>
-              {dogs.map((dog) => (
-                <option key={dog.id} value={dog.id}>
-                  {dog.name}
-                </option>
-              ))}
-            </select>
+        {!loadingDogs && !dogsError && dogs.length === 0 && (
+          <p>{t('startWalk.noDogs')}</p>
+        )}
+
+        {!loadingDogs && !dogsError && dogs.length > 0 && (
+          <div style={dogGridStyle}>
+            {dogs.map((dog) => (
+              <DogCard
+                key={dog.id}
+                dog={dog}
+                selected={String(dog.id) === String(dogId)}
+                onClick={() => setDogId(String(dog.id))}
+              />
+            ))}
           </div>
+        )}
+      </div>
 
-          {selectedDog && (
-            <div
-              style={{
-                border: '1px solid #ddd',
-                borderRadius: '10px',
-                padding: '1rem',
-                background: '#fafafa',
-              }}
-            >
-              <h3 style={{ marginTop: 0 }}>{selectedDog.name}</h3>
-              {selectedDog.size && (
-                <p>
-                  <strong>Size:</strong> {selectedDog.size}
-                </p>
-              )}
-              {selectedDog.age_text && (
-                <p>
-                  <strong>Age:</strong> {selectedDog.age_text}
-                </p>
-              )}
-              {selectedDog.notes_summary && (
-                <p>
-                  <strong>Summary:</strong> {selectedDog.notes_summary}
-                </p>
-              )}
-            </div>
-          )}
+      <form onSubmit={handleSubmit} style={sectionStyle}>
+        <h2 style={sectionTitleStyle}>{t('startWalk.title')}</h2>
 
+        <div style={formGridStyle}>
           <div>
-            <label>Your name</label>
-            <br />
+            <label style={labelStyle}>{t('startWalk.yourName')}</label>
             <input
               type="text"
               value={personName}
               onChange={(e) => setPersonName(e.target.value)}
               required
-              style={{ width: '100%', padding: '0.6rem' }}
+              style={inputStyle}
             />
           </div>
 
           <div>
-            <label>Phone number</label>
-            <br />
+            <label style={labelStyle}>{t('startWalk.phoneNumber')}</label>
             <input
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
-              style={{ width: '100%', padding: '0.6rem' }}
+              style={inputStyle}
             />
           </div>
 
           <div>
-            <label>Email (optional)</label>
-            <br />
+            <label style={labelStyle}>{t('startWalk.emailOptional')}</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{ width: '100%', padding: '0.6rem' }}
+              style={inputStyle}
             />
           </div>
 
           <div>
-            <label>Expected return time</label>
-            <br />
+            <label style={labelStyle}>{t('startWalk.expectedReturnTime')}</label>
             <input
               type="datetime-local"
               value={expectedReturnAt}
               onChange={(e) => setExpectedReturnAt(e.target.value)}
               required
-              style={{ width: '100%', padding: '0.6rem' }}
+              style={inputStyle}
             />
           </div>
+        </div>
 
-          <div>
-            <label>Checkout notes (optional)</label>
-            <br />
-            <textarea
-              value={checkoutNotes}
-              onChange={(e) => setCheckoutNotes(e.target.value)}
-              rows={4}
-              style={{ width: '100%', padding: '0.6rem' }}
-              placeholder="Anything useful before leaving..."
-            />
-          </div>
+        <div style={{ marginTop: '1rem' }}>
+          <label style={labelStyle}>{t('startWalk.checkoutNotesOptional')}</label>
+          <textarea
+            value={checkoutNotes}
+            onChange={(e) => setCheckoutNotes(e.target.value)}
+            rows={4}
+            style={textareaStyle}
+            placeholder={t('startWalk.checkoutNotesPlaceholder')}
+          />
+        </div>
 
-          {submitError && <p style={{ color: 'crimson' }}>{submitError}</p>}
+        {submitError && <p style={errorStyle}>{submitError}</p>}
 
-          <button type="submit" disabled={submitting || !dogId}>
-            {submitting ? 'Starting walk...' : 'Start walk'}
+        <div style={{ marginTop: '1rem' }}>
+          <button
+            type="submit"
+            disabled={submitting || !dogId}
+            style={{
+              ...primaryButtonStyle,
+              opacity: submitting || !dogId ? 0.7 : 1,
+              cursor: submitting || !dogId ? 'not-allowed' : 'pointer',
+            }}
+          >
+            {submitting ? t('startWalk.startingWalk') : t('startWalk.startWalk')}
           </button>
-        </form>
-      )}
+        </div>
+      </form>
     </div>
   )
 }
@@ -233,7 +208,89 @@ function getDefaultReturnTime() {
   return `${year}-${month}-${day}T${hours}:${minutes}`
 }
 
-function formatDateTime(value) {
-  if (!value) return '-'
-  return new Date(value).toLocaleString()
+const pageStyle = {
+  padding: '2rem',
+  maxWidth: '960px',
+  margin: '0 auto',
+}
+
+const headerRowStyle = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'flex-start',
+  gap: '1rem',
+  marginBottom: '2rem',
+}
+
+const titleStyle = {
+  margin: 0,
+}
+
+const subtitleStyle = {
+  marginTop: '0.5rem',
+  color: '#555',
+}
+
+const sectionStyle = {
+  border: '1px solid #e5e5e5',
+  borderRadius: '14px',
+  padding: '1.25rem',
+  background: '#fff',
+  marginBottom: '1.5rem',
+}
+
+const sectionTitleStyle = {
+  marginTop: 0,
+  marginBottom: '1rem',
+}
+
+const dogGridStyle = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+  gap: '1rem',
+}
+
+const formGridStyle = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+  gap: '1rem',
+}
+
+const labelStyle = {
+  display: 'block',
+  marginBottom: '0.4rem',
+  fontWeight: 600,
+}
+
+const inputStyle = {
+  width: '100%',
+  padding: '0.75rem',
+  border: '1px solid #ccc',
+  borderRadius: '10px',
+  fontSize: '1rem',
+  boxSizing: 'border-box',
+}
+
+const textareaStyle = {
+  width: '100%',
+  padding: '0.75rem',
+  border: '1px solid #ccc',
+  borderRadius: '10px',
+  fontSize: '1rem',
+  boxSizing: 'border-box',
+  resize: 'vertical',
+}
+
+const primaryButtonStyle = {
+  background: '#2563eb',
+  color: '#fff',
+  border: 'none',
+  padding: '0.8rem 1rem',
+  borderRadius: '10px',
+  fontSize: '1rem',
+}
+
+const errorStyle = {
+  color: 'crimson',
+  marginTop: '1rem',
 }

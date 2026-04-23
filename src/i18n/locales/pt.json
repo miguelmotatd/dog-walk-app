@@ -1,0 +1,121 @@
+{
+  "common": {
+    "loading": "A carregar...",
+    "refresh": "Atualizar",
+    "back": "Voltar",
+    "logout": "Terminar sessão",
+    "search": "Pesquisar",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "language": {
+    "english": "English",
+    "portuguese": "Português"
+  },
+  "login": {
+    "title": "Login de Voluntário",
+    "email": "Email",
+    "password": "Palavra-passe",
+    "login": "Entrar",
+    "loggingIn": "A entrar...",
+    "forgotPassword": "Esqueceu-se da palavra-passe?",
+    "backToLogin": "Voltar ao login",
+    "sendResetEmail": "Enviar email de recuperação",
+    "sending": "A enviar...",
+    "resetEmailSent": "Email de recuperação enviado. Verifique a sua caixa de entrada."
+  },
+  "resetPassword": {
+    "title": "Redefinir palavra-passe",
+    "newPassword": "Nova palavra-passe",
+    "confirmPassword": "Confirmar nova palavra-passe",
+    "updatePassword": "Atualizar palavra-passe",
+    "updating": "A atualizar...",
+    "passwordsDoNotMatch": "As palavras-passe não coincidem.",
+    "passwordTooShort": "A palavra-passe deve ter pelo menos 6 caracteres.",
+    "updated": "Palavra-passe atualizada com sucesso. A redirecionar para o login..."
+  },
+  "dashboard": {
+    "title": "Painel de Voluntários",
+    "activeWalks": "Passeios Ativos",
+    "dogs": "Cães",
+    "noActiveWalks": "Não há cães em passeio neste momento.",
+    "noDogs": "Não foram encontrados cães.",
+    "walker": "Pessoa",
+    "phone": "Telefone",
+    "checkedOut": "Saída",
+    "expectedReturn": "Regresso previsto",
+    "status": "Estado",
+    "actions": "Ações",
+    "returnDog": "Dar entrada do cão",
+    "returnByVolunteer": "Regressado por voluntário",
+    "confirmReturn": "Dar entrada do {{dogName}}?"
+  },
+  "dog": {
+    "status": "Estado",
+    "size": "Porte",
+    "age": "Idade",
+    "summary": "Resumo",
+    "available": "Disponível",
+    "out_on_walk": "Em passeio",
+    "unavailable": "Indisponível"
+  },
+  "startWalk": {
+    "title": "Iniciar Passeio",
+    "subtitle": "Registe o passeio antes de sair do abrigo.",
+    "loadingDogs": "A carregar cães disponíveis...",
+    "noDogs": "Não há cães disponíveis para passeio neste momento.",
+    "dog": "Cão",
+    "selectDog": "Selecione um cão",
+    "yourName": "O seu nome",
+    "phoneNumber": "Número de telefone",
+    "emailOptional": "Email (opcional)",
+    "expectedReturnTime": "Hora prevista de regresso",
+    "checkoutNotesOptional": "Notas de saída (opcional)",
+    "checkoutNotesPlaceholder": "Algo útil antes de sair...",
+    "startWalk": "Iniciar passeio",
+    "startingWalk": "A iniciar passeio..."
+  },
+  "publicWalk": {
+    "title": "Passeio",
+    "missingWalkOrToken": "Falta o identificador do passeio ou o token.",
+    "walkNotFound": "Passeio não encontrado.",
+    "walker": "Pessoa",
+    "checkedOut": "Saída",
+    "expectedReturn": "Regresso previsto",
+    "status": "Estado",
+    "checkoutNotes": "Notas de saída",
+    "returnedAt": "Regressou às",
+    "returnNotes": "Notas de regresso",
+    "notesFromThisWalk": "Notas deste passeio",
+    "noNotesYet": "Ainda não existem notas.",
+    "addNote": "Adicionar nota",
+    "noteType": "Tipo de nota",
+    "comment": "Comentário",
+    "commentPlaceholder": "Por exemplo: tem medo de motas, adora o rio, puxa a trela...",
+    "savingNote": "A guardar nota...",
+    "addNoteButton": "Adicionar nota",
+    "returnDog": "Dar entrada do cão",
+    "finalNotesOptional": "Notas finais (opcional)",
+    "finalNotesPlaceholder": "Como correu o passeio?",
+    "returningDog": "A dar entrada do cão...",
+    "returnDogButton": "Dar entrada do cão",
+    "active": "Ativo",
+    "returned": "Regressado",
+    "overdue": "Atrasado"
+  },
+  "myWalks": {
+    "title": "Os meus passeios",
+    "subtitle": "Aqui pode ver os seus passeios ativos.",
+    "panelTitle": "Os meus passeios ativos",
+    "empty": "Não tem passeios ativos neste momento.",
+    "loading": "A carregar passeios...",
+    "openWalk": "Abrir passeio"
+  },
+  "notes": {
+    "general": "Geral",
+    "behavior": "Comportamento",
+    "warning": "Aviso",
+    "preference": "Preferência",
+    "route": "Percurso"
+  }
+}

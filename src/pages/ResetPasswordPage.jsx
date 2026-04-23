@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
+import LanguageSwitcher from '../components/LanguageSwitcher'
 
 export default function ResetPasswordPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -16,20 +19,18 @@ export default function ResetPasswordPage() {
     setInfoMessage('')
 
     if (password !== confirmPassword) {
-      setErrorMessage('Passwords do not match.')
+      setErrorMessage(t('resetPassword.passwordsDoNotMatch'))
       return
     }
 
     if (password.length < 6) {
-      setErrorMessage('Password must have at least 6 characters.')
+      setErrorMessage(t('resetPassword.passwordTooShort'))
       return
     }
 
     setLoading(true)
 
-    const { error } = await supabase.auth.updateUser({
-      password,
-    })
+    const { error } = await supabase.auth.updateUser({ password })
 
     if (error) {
       setErrorMessage(error.message)
@@ -37,7 +38,7 @@ export default function ResetPasswordPage() {
       return
     }
 
-    setInfoMessage('Password updated successfully. Redirecting to login...')
+    setInfoMessage(t('resetPassword.updated'))
 
     setTimeout(() => {
       navigate('/login')
@@ -48,11 +49,14 @@ export default function ResetPasswordPage() {
 
   return (
     <div style={{ padding: '2rem', maxWidth: '420px', margin: '0 auto' }}>
-      <h1>Reset password</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+        <h1>{t('resetPassword.title')}</h1>
+        <LanguageSwitcher />
+      </div>
 
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '1rem' }}>
-          <label>New password</label>
+          <label>{t('resetPassword.newPassword')}</label>
           <br />
           <input
             type="password"
@@ -64,7 +68,7 @@ export default function ResetPasswordPage() {
         </div>
 
         <div style={{ marginBottom: '1rem' }}>
-          <label>Confirm new password</label>
+          <label>{t('resetPassword.confirmPassword')}</label>
           <br />
           <input
             type="password"
@@ -79,7 +83,7 @@ export default function ResetPasswordPage() {
         {infoMessage && <p style={{ color: 'green' }}>{infoMessage}</p>}
 
         <button type="submit" disabled={loading}>
-          {loading ? 'Updating...' : 'Update password'}
+          {loading ? t('resetPassword.updating') : t('resetPassword.updatePassword')}
         </button>
       </form>
     </div>

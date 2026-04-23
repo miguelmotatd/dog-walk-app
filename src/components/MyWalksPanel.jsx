@@ -1,23 +1,28 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 
 export default function MyWalksPanel({
   personPublicToken,
-  title = 'My active walks',
-  emptyMessage = 'You do not have any active walks right now.',
+  title,
+  emptyMessage,
 }) {
+  const { t, i18n } = useTranslation()
+  const resolvedTitle = title || t('myWalks.panelTitle')
+  const resolvedEmptyMessage = emptyMessage || t('myWalks.empty')
+
   const [walks, setWalks] = useState([])
   const [loading, setLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     if (!personPublicToken) {
-        setWalks([])
-        setLoading(false)
-        setErrorMessage('')
-        return
-        }
+      setWalks([])
+      setLoading(false)
+      setErrorMessage('')
+      return
+    }
 
     loadWalks()
   }, [personPublicToken])
@@ -52,25 +57,15 @@ export default function MyWalksPanel({
           marginBottom: '1rem',
         }}
       >
-        <h2 style={{ margin: 0 }}>{title}</h2>
+        <h2 style={{ margin: 0 }}>{resolvedTitle}</h2>
         <button onClick={loadWalks} disabled={loading}>
-          {loading ? 'Refreshing...' : 'Refresh'}
+          {loading ? t('common.loading') : t('common.refresh')}
         </button>
       </div>
 
-      {loading && <p>Loading walks...</p>}
-
-      {!loading && errorMessage && (
-        <p style={{ color: 'crimson' }}>{errorMessage}</p>
-      )}
-
-      {!loading && !errorMessage && !personPublicToken && (
-        <p>Start a walk first to see it here.</p>
-    )}
-
-      {!loading && !errorMessage && walks.length === 0 && (
-        <p>{emptyMessage}</p>
-      )}
+      {loading && <p>{t('myWalks.loading')}</p>}
+      {!loading && errorMessage && <p style={{ color: 'crimson' }}>{errorMessage}</p>}
+      {!loading && !errorMessage && walks.length === 0 && <p>{resolvedEmptyMessage}</p>}
 
       {!loading && !errorMessage && walks.length > 0 && (
         <div style={{ display: 'grid', gap: '1rem' }}>
@@ -89,27 +84,22 @@ export default function MyWalksPanel({
               </h3>
 
               <p>
-                <strong>Checked out:</strong> {formatDateTime(walk.checked_out_at)}
+                <strong>{t('dashboard.checkedOut')}:</strong>{' '}
+                {formatDateTime(walk.checked_out_at, i18n.language)}
               </p>
 
               <p>
-                <strong>Expected return:</strong>{' '}
-                {formatDateTime(walk.expected_return_at)}
+                <strong>{t('dashboard.expectedReturn')}:</strong>{' '}
+                {formatDateTime(walk.expected_return_at, i18n.language)}
               </p>
 
               <p>
-                <strong>Status:</strong>{' '}
-                {walk.overdue ? (
-                  <span style={{ color: 'crimson', fontWeight: 'bold' }}>
-                    Overdue
-                  </span>
-                ) : (
-                  walk.status
-                )}
+                <strong>{t('dashboard.status')}:</strong>{' '}
+                {walk.overdue ? t('publicWalk.overdue') : t('publicWalk.active')}
               </p>
 
               <Link to={`/walk/${walk.walk_id}?token=${walk.public_token}`}>
-                Open walk
+                {t('myWalks.openWalk')}
               </Link>
             </div>
           ))}
@@ -119,7 +109,7 @@ export default function MyWalksPanel({
   )
 }
 
-function formatDateTime(value) {
+function formatDateTime(value, language) {
   if (!value) return '-'
-  return new Date(value).toLocaleString()
+  return new Date(value).toLocaleString(language === 'pt' ? 'pt-PT' : 'en-US')
 }
