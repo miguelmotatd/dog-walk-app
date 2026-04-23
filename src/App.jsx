@@ -10,6 +10,8 @@ import DashboardPage from './pages/DashboardPage'
 import StartWalkPage from './pages/StartWalkPage'
 import PublicWalkPage from './pages/PublicWalkPage'
 import MyWalksPage from './pages/MyWalksPage'
+import CreateDogPage from './pages/CreateDogPage'
+import EditDogPage from './pages/EditDogPage'
 
 export default function App() {
   const [session, setSession] = useState(undefined)
@@ -45,6 +47,24 @@ export default function App() {
         <Route
           path="/login"
           element={session ? <Navigate to="/" replace /> : <LoginPage />}
+        />
+
+        <Route
+          path="/dogs/new"
+          element={
+            <ProtectedRoute session={session}>
+              <CreateDogPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/dogs/:dogId/edit"
+          element={
+            <ProtectedRoute session={session}>
+              <EditDogPage />
+            </ProtectedRoute>
+          }
         />
 
         <Route

@@ -129,5 +129,21 @@
     "between1And3": "1 to 3 years",
     "between4And7": "4 to 7 years",
     "over8": "8+ years"
+  },
+  "dogForm": {
+    "createTitle": "Create dog",
+    "editTitle": "Edit dog",
+    "create": "Create dog",
+    "creating": "Creating dog...",
+    "edit": "Edit",
+    "save": "Save changes",
+    "saving": "Saving...",
+    "name": "Name",
+    "status": "Status",
+    "size": "Size",
+    "noSize": "No size selected",
+    "estimatedBirthYear": "Estimated birth year",
+    "summary": "Summary",
+    "active": "Active"
   }
 }

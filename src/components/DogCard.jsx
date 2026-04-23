@@ -6,7 +6,7 @@ export default function DogCard({
   action,
   selected = false,
 }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   return (
     <div
@@ -20,7 +20,6 @@ export default function DogCard({
         boxShadow: selected
           ? '0 0 0 3px rgba(37, 99, 235, 0.08)'
           : '0 1px 2px rgba(0,0,0,0.04)',
-        transition: 'all 0.15s ease',
       }}
     >
       <h3 style={{ marginTop: 0, marginBottom: '0.75rem' }}>{dog.name}</h3>
@@ -36,9 +35,9 @@ export default function DogCard({
         </p>
       )}
 
-      {dog.age_text && (
+      {dog.age != null && (
         <p style={rowStyle}>
-          <strong>{t('dog.age')}:</strong> {dog.age_text}
+          <strong>{t('dog.age')}:</strong> {formatAge(dog.age, i18n.language)}
         </p>
       )}
 
@@ -58,17 +57,18 @@ const rowStyle = {
 }
 
 function getStatusStyle(status) {
-  if (status === 'available') {
-    return { color: '#166534', fontWeight: 700 }
-  }
-
-  if (status === 'out_on_walk') {
-    return { color: '#b45309', fontWeight: 700 }
-  }
-
-  if (status === 'unavailable') {
-    return { color: '#6b7280', fontWeight: 700 }
-  }
-
+  if (status === 'available') return { color: '#166534', fontWeight: 700 }
+  if (status === 'out_on_walk') return { color: '#b45309', fontWeight: 700 }
+  if (status === 'unavailable') return { color: '#6b7280', fontWeight: 700 }
   return {}
+}
+
+function formatAge(age, language = 'en') {
+  if (age == null) return '-'
+
+  if (language === 'pt') {
+    return age === 1 ? '1 ano' : `${age} anos`
+  }
+
+  return age === 1 ? '1 year' : `${age} years`
 }

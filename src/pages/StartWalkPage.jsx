@@ -41,8 +41,8 @@ export default function StartWalkPage() {
     setDogsError('')
 
     const { data, error } = await supabase
-      .from('dogs')
-      .select('id, name, status, size, age_text, notes_summary, is_active')
+      .from('dogs_view')
+      .select('id, name, status, size, estimated_birth_year, age, notes_summary, is_active')
       .eq('is_active', true)
       .eq('status', 'available')
       .order('name', { ascending: true })

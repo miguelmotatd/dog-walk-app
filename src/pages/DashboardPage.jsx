@@ -6,6 +6,7 @@ import LanguageSwitcher from '../components/LanguageSwitcher'
 import { useMemo } from 'react'
 import DogFilters from '../components/DogFilters'
 import { filterDogs } from '../utils/dogFilters'
+import { Link } from 'react-router-dom'
 
 export default function DashboardPage() {
   const { t, i18n } = useTranslation()
@@ -32,7 +33,7 @@ export default function DashboardPage() {
     setErrorDogs('')
 
     const { data, error } = await supabase
-      .from('dogs')
+      .from('dogs_view')
       .select('*')
       .order('name', { ascending: true })
 
@@ -115,6 +116,9 @@ export default function DashboardPage() {
         <h1>{t('dashboard.title')}</h1>
 
         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+          <Link to="/dogs/new" style={newDogLinkStyle}>
+            {t('dogForm.create')}
+          </Link>
           <LanguageSwitcher />
           <button onClick={handleLogout}>{t('common.logout')}</button>
         </div>
@@ -203,7 +207,15 @@ export default function DashboardPage() {
               }}
             >
               {filteredDogs.map((dog) => (
-                <DogCard key={dog.id} dog={dog} />
+                <DogCard
+                  key={dog.id}
+                  dog={dog}
+                  action={
+                    <Link to={`/dogs/${dog.id}/edit`} style={editLinkStyle}>
+                      {t('dogForm.edit')}
+                    </Link>
+                  }
+                />
               ))}
             </div>
           </div>
@@ -233,4 +245,23 @@ const dogsScrollAreaStyle = {
   maxHeight: '60vh',
   overflowY: 'auto',
   paddingRight: '0.25rem',
+}
+
+const newDogLinkStyle = {
+  display: 'inline-block',
+  padding: '0.55rem 0.8rem',
+  borderRadius: '8px',
+  background: '#dbeafe',
+  color: '#1d4ed8',
+  textDecoration: 'none',
+}
+
+const editLinkStyle = {
+  display: 'inline-block',
+  padding: '0.45rem 0.7rem',
+  borderRadius: '8px',
+  background: '#f3f4f6',
+  color: '#111827',
+  textDecoration: 'none',
+  border: '1px solid #d1d5db',
 }
