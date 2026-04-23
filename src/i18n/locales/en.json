@@ -48,7 +48,9 @@
     "actions": "Actions",
     "returnDog": "Return dog",
     "returnByVolunteer": "Returned by volunteer",
-    "confirmReturn": "Return {{dogName}}?"
+    "confirmReturn": "Return {{dogName}}?",
+    "lockDog": "Lock",
+    "unlockDog": "Unlock"
   },
   "dog": {
     "status": "Status",

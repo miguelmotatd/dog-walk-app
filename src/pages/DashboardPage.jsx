@@ -102,6 +102,30 @@ export default function DashboardPage() {
     await loadDogs()
   }
 
+  const handleToggleAvailability = async (dog) => {
+    if (dog.status === 'out_on_walk') {
+      alert('This dog is currently out on a walk.')
+      return
+    }
+
+    const nextStatus = dog.status === 'unavailable' ? 'available' : 'unavailable'
+
+    const { error } = await supabase
+      .from('dogs')
+      .update({
+        status: nextStatus,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', dog.id)
+
+    if (error) {
+      alert(error.message)
+      return
+    }
+
+    await loadDogs()
+  }
+
   return (
     <div style={{ padding: '2rem' }}>
       <div
@@ -211,9 +235,33 @@ export default function DashboardPage() {
                   key={dog.id}
                   dog={dog}
                   action={
-                    <Link to={`/dogs/${dog.id}/edit`} style={editLinkStyle}>
-                      {t('dogForm.edit')}
-                    </Link>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                      <button
+                        onClick={() => handleToggleAvailability(dog)}
+                        disabled={dog.status === 'out_on_walk'}
+                        style={{
+                          ...toggleButtonStyle,
+                          background:
+                            dog.status === 'unavailable' ? '#dcfce7' : '#fee2e2',
+                          color:
+                            dog.status === 'unavailable' ? '#166534' : '#991b1b',
+                          border:
+                            dog.status === 'unavailable'
+                              ? '1px solid #86efac'
+                              : '1px solid #fca5a5',
+                          opacity: dog.status === 'out_on_walk' ? 0.6 : 1,
+                          cursor: dog.status === 'out_on_walk' ? 'not-allowed' : 'pointer',
+                        }}
+                      >
+                        {dog.status === 'unavailable'
+                          ? t('dashboard.unlockDog')
+                          : t('dashboard.lockDog')}
+                      </button>
+
+                      <Link to={`/dogs/${dog.id}/edit`} style={editLinkStyle}>
+                        {t('dogForm.edit')}
+                      </Link>
+                    </div>
                   }
                 />
               ))}
@@ -264,4 +312,10 @@ const editLinkStyle = {
   color: '#111827',
   textDecoration: 'none',
   border: '1px solid #d1d5db',
+}
+
+const toggleButtonStyle = {
+  padding: '0.45rem 0.7rem',
+  borderRadius: '8px',
+  fontSize: '0.95rem',
 }

@@ -48,7 +48,9 @@
     "actions": "Ações",
     "returnDog": "Dar entrada do cão",
     "returnByVolunteer": "Regressado por voluntário",
-    "confirmReturn": "Dar entrada do {{dogName}}?"
+    "confirmReturn": "Dar entrada do {{dogName}}?",
+    "lockDog": "Bloquear",
+    "unlockDog": "Desbloquear"
   },
   "dog": {
     "status": "Estado",
