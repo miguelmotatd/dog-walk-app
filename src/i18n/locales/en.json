@@ -117,5 +117,17 @@
     "warning": "Warning",
     "preference": "Preference",
     "route": "Route"
+  },
+  "dogsFilter": {
+    "searchPlaceholder": "Search by name...",
+    "allSizes": "All sizes",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "allAges": "All ages",
+    "under1": "Under 1 year",
+    "between1And3": "1 to 3 years",
+    "between4And7": "4 to 7 years",
+    "over8": "8+ years"
   }
 }

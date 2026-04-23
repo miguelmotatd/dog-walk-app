@@ -4,6 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import DogCard from '../components/DogCard'
 import LanguageSwitcher from '../components/LanguageSwitcher'
+import { useMemo } from 'react'
+import DogFilters from '../components/DogFilters'
+import { filterDogs } from '../utils/dogFilters'
 
 export default function StartWalkPage() {
   const { t } = useTranslation()
@@ -22,6 +25,12 @@ export default function StartWalkPage() {
 
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
+
+  const [filters, setFilters] = useState({
+    searchText: '',
+    size: 'all',
+    ageRange: 'all',
+  })
 
   useEffect(() => {
     loadAvailableDogs()
@@ -48,6 +57,16 @@ export default function StartWalkPage() {
     setLoadingDogs(false)
   }
 
+  const filteredDogs = useMemo(() => {
+    return filterDogs(dogs, filters)
+  }, [dogs, filters])
+
+  const handleFilterChange = (key, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }))
+  }
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSubmitting(true)
@@ -95,23 +114,27 @@ export default function StartWalkPage() {
       <div style={sectionStyle}>
         <h2 style={sectionTitleStyle}>{t('startWalk.dog')}</h2>
 
+        <DogFilters filters={filters} onChange={handleFilterChange} />
+
         {loadingDogs && <p>{t('startWalk.loadingDogs')}</p>}
         {dogsError && <p style={errorStyle}>{dogsError}</p>}
 
-        {!loadingDogs && !dogsError && dogs.length === 0 && (
+        {!loadingDogs && !dogsError && filteredDogs.length === 0 && (
           <p>{t('startWalk.noDogs')}</p>
         )}
 
-        {!loadingDogs && !dogsError && dogs.length > 0 && (
-          <div style={dogGridStyle}>
-            {dogs.map((dog) => (
-              <DogCard
-                key={dog.id}
-                dog={dog}
-                selected={String(dog.id) === String(dogId)}
-                onClick={() => setDogId(String(dog.id))}
-              />
-            ))}
+        {!loadingDogs && !dogsError && filteredDogs.length > 0 && (
+          <div style={scrollAreaStyle}>
+            <div style={dogGridStyle}>
+              {filteredDogs.map((dog) => (
+                <DogCard
+                  key={dog.id}
+                  dog={dog}
+                  selected={String(dog.id) === String(dogId)}
+                  onClick={() => setDogId(String(dog.id))}
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -293,4 +316,10 @@ const primaryButtonStyle = {
 const errorStyle = {
   color: 'crimson',
   marginTop: '1rem',
+}
+
+const scrollAreaStyle = {
+  maxHeight: '60vh',
+  overflowY: 'auto',
+  paddingRight: '0.25rem',
 }

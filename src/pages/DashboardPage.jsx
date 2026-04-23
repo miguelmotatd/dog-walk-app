@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import DogCard from '../components/DogCard'
 import LanguageSwitcher from '../components/LanguageSwitcher'
+import { useMemo } from 'react'
+import DogFilters from '../components/DogFilters'
+import { filterDogs } from '../utils/dogFilters'
 
 export default function DashboardPage() {
   const { t, i18n } = useTranslation()
@@ -12,6 +15,12 @@ export default function DashboardPage() {
   const [loadingWalks, setLoadingWalks] = useState(true)
   const [errorDogs, setErrorDogs] = useState('')
   const [errorWalks, setErrorWalks] = useState('')
+  
+  const [filters, setFilters] = useState({
+    searchText: '',
+    size: 'all',
+    ageRange: 'all',
+  })
 
   useEffect(() => {
     loadDogs()
@@ -35,6 +44,17 @@ export default function DashboardPage() {
     }
 
     setLoadingDogs(false)
+  }
+
+  const filteredDogs = useMemo(() => {
+    return filterDogs(dogs, filters)
+  }, [dogs, filters])
+
+  const handleFilterChange = (key, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }))
   }
 
   const loadActiveWalks = async () => {
@@ -163,25 +183,29 @@ export default function DashboardPage() {
       <section>
         <h2>{t('dashboard.dogs')}</h2>
 
+        <DogFilters filters={filters} onChange={handleFilterChange} />
+
         {loadingDogs && <p>{t('common.loading')}</p>}
         {errorDogs && <p style={{ color: 'crimson' }}>{errorDogs}</p>}
 
-        {!loadingDogs && !errorDogs && dogs.length === 0 && (
+        {!loadingDogs && !errorDogs && filteredDogs.length === 0 && (
           <p>{t('dashboard.noDogs')}</p>
         )}
 
-        {!loadingDogs && !errorDogs && dogs.length > 0 && (
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: '1rem',
-              marginTop: '1rem',
-            }}
-          >
-            {dogs.map((dog) => (
-              <DogCard key={dog.id} dog={dog} />
-            ))}
+        {!loadingDogs && !errorDogs && filteredDogs.length > 0 && (
+          <div style={dogsScrollAreaStyle}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                gap: '1rem',
+                marginTop: '1rem',
+              }}
+            >
+              {filteredDogs.map((dog) => (
+                <DogCard key={dog.id} dog={dog} />
+              ))}
+            </div>
           </div>
         )}
       </section>
@@ -203,4 +227,10 @@ const thStyle = {
 const tdStyle = {
   borderBottom: '1px solid #eee',
   padding: '0.75rem',
+}
+
+const dogsScrollAreaStyle = {
+  maxHeight: '60vh',
+  overflowY: 'auto',
+  paddingRight: '0.25rem',
 }

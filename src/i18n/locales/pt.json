@@ -117,5 +117,17 @@
     "warning": "Aviso",
     "preference": "Preferência",
     "route": "Percurso"
+  },
+    "dogsFilter": {
+    "searchPlaceholder": "Pesquisar por nome...",
+    "allSizes": "Todos os portes",
+    "small": "Pequeno",
+    "medium": "Médio",
+    "large": "Grande",
+    "allAges": "Todas as idades",
+    "under1": "Menos de 1 ano",
+    "between1And3": "1 a 3 anos",
+    "between4And7": "4 a 7 anos",
+    "over8": "8+ anos"
   }
 }
