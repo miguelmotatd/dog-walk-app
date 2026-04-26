@@ -29,6 +29,7 @@ export default function StartWalkPage() {
   const [filters, setFilters] = useState({
     searchText: '',
     size: 'all',
+    sex: 'all',
     ageRange: 'all',
   })
 
@@ -42,7 +43,7 @@ export default function StartWalkPage() {
 
     const { data, error } = await supabase
       .from('dogs_view')
-      .select('id, name, status, size, estimated_birth_year, age, notes_summary, is_active')
+      .select('id, name, status, size, sex, estimated_birth_year, age, image_url, notes_summary, is_active')
       .eq('is_active', true)
       .eq('status', 'available')
       .order('name', { ascending: true })

@@ -47,6 +47,12 @@ export default function DogCard({
           </span>
         </p>
 
+        {dog.sex && (
+          <p style={rowStyle}>
+            <strong>{t('dog.sex')}:</strong> {t(`dog.${dog.sex}`)}
+          </p>
+        )}
+
         {dog.size && (
           <p style={rowStyle}>
             <strong>{t('dog.size')}:</strong> {dog.size}
@@ -74,14 +80,20 @@ export default function DogCard({
 
 const imageWrapperStyle = {
   width: '100%',
-  height: '220px',
-  background: '#f3f4f6',
+  aspectRatio: '4 / 3',
+  background: '#f7f3ec',
+  overflow: 'hidden',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 }
 
 const imageStyle = {
   width: '100%',
   height: '100%',
   objectFit: 'cover',
+  objectPosition: 'center center',
+  display: 'block',
 }
 
 const placeholderStyle = {

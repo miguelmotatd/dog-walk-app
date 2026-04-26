@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { uploadDogImage } from '../utils/uploadDogImage'
 import { useTranslation } from 'react-i18next'
 
 export default function DogForm({
@@ -9,7 +10,9 @@ export default function DogForm({
     estimated_birth_year: '',
     notes_summary: '',
     is_active: true,
-    image_url: initialValues.image_url ?? '',
+    image_url: '',
+    image_file: null,
+    sex: '',
   },
   onSubmit,
   submitLabel,
@@ -28,6 +31,9 @@ export default function DogForm({
         : '',
     notes_summary: initialValues.notes_summary ?? '',
     is_active: initialValues.is_active ?? true,
+    image_url: initialValues.image_url ?? '',
+    image_file: null,
+    sex: initialValues.sex ?? '',
   })
 
   const [submitting, setSubmitting] = useState(false)
@@ -44,6 +50,12 @@ export default function DogForm({
     setSubmitting(true)
 
     try {
+      let imageUrl = formData.image_url || null
+
+      if (formData.image_file) {
+        imageUrl = await uploadDogImage(formData.image_file, formData.name)
+      }
+
       await onSubmit({
         name: formData.name.trim(),
         status: formData.status,
@@ -51,9 +63,10 @@ export default function DogForm({
         estimated_birth_year: formData.estimated_birth_year
           ? Number(formData.estimated_birth_year)
           : null,
+        image_url: imageUrl,
         notes_summary: formData.notes_summary.trim() || null,
         is_active: formData.is_active,
-        image_url: formData.image_url.trim() || null,
+        sex: formData.sex || null,
       })
     } finally {
       setSubmitting(false)
@@ -75,13 +88,30 @@ export default function DogForm({
         </div>
 
         <div>
-          <label style={labelStyle}>{t('dogForm.imageUrl')}</label>
+          <label style={labelStyle}>{t('dogForm.photo')}</label>
           <input
-            type="url"
-            value={formData.image_url}
-            onChange={(e) => handleChange('image_url', e.target.value)}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={(e) => handleChange('image_file', e.target.files?.[0] || null)}
             style={inputStyle}
           />
+
+          {formData.image_url && (
+            <div style={{ marginTop: '0.75rem' }}>
+              <img
+                src={formData.image_url}
+                alt={formData.name || 'Dog'}
+                style={{
+                  width: '160px',
+                  height: '120px',
+                  objectFit: 'cover',
+                  borderRadius: '12px',
+                  border: '1px solid #ddd',
+                }}
+              />
+            </div>
+          )}
         </div>
 
         <div>
@@ -94,6 +124,19 @@ export default function DogForm({
             <option value="available">{t('dog.available')}</option>
             <option value="out_on_walk">{t('dog.out_on_walk')}</option>
             <option value="unavailable">{t('dog.unavailable')}</option>
+          </select>
+        </div>
+
+        <div>
+          <label style={labelStyle}>{t('dogForm.sex')}</label>
+          <select
+            value={formData.sex}
+            onChange={(e) => handleChange('sex', e.target.value)}
+            style={inputStyle}
+          >
+            <option value="">{t('dogForm.noSex')}</option>
+            <option value="male">{t('dog.male')}</option>
+            <option value="female">{t('dog.female')}</option>
           </select>
         </div>
 

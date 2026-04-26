@@ -59,7 +59,10 @@
     "summary": "Resumo",
     "available": "Disponível",
     "out_on_walk": "Em passeio",
-    "unavailable": "Indisponível"
+    "unavailable": "Indisponível",
+    "sex": "Sexo",
+    "male": "Macho",
+    "female": "Fêmea"
   },
   "startWalk": {
     "title": "Iniciar Passeio",
@@ -132,7 +135,10 @@
     "under1": "Menos de 1 ano",
     "between1And3": "1 a 3 anos",
     "between4And7": "4 a 7 anos",
-    "over8": "8+ anos"
+    "over8": "8+ anos",
+    "allSexes": "Todos os sexos",
+    "male": "Macho",
+    "female": "Fêmea"
   },
   "dogForm": {
     "createTitle": "Criar cão",
@@ -149,6 +155,9 @@
     "estimatedBirthYear": "Ano de nascimento estimado",
     "summary": "Resumo",
     "active": "Ativo",
-    "imageUrl": "URL da imagem"
+    "imageUrl": "URL da imagem",
+    "photo": "Foto",
+    "sex": "Sexo",
+    "noSex": "Nenhum sexo selecionado"
   }
 }

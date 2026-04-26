@@ -14,6 +14,16 @@ export default function DogFilters({ filters, onChange }) {
       />
 
       <select
+        value={filters.sex}
+        onChange={(e) => onChange('sex', e.target.value)}
+        style={selectStyle}
+      >
+        <option value="all">{t('dogsFilter.allSexes')}</option>
+        <option value="male">{t('dogsFilter.male')}</option>
+        <option value="female">{t('dogsFilter.female')}</option>
+      </select>
+
+      <select
         value={filters.size}
         onChange={(e) => onChange('size', e.target.value)}
         style={selectStyle}
@@ -41,7 +51,7 @@ export default function DogFilters({ filters, onChange }) {
 
 const wrapperStyle = {
   display: 'grid',
-  gridTemplateColumns: '2fr 1fr 1fr',
+  gridTemplateColumns: '2fr 1fr 1fr 1fr',
   gap: '0.75rem',
   marginBottom: '1rem',
 }

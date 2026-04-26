@@ -20,6 +20,7 @@ export default function DashboardPage() {
   const [filters, setFilters] = useState({
     searchText: '',
     size: 'all',
+    sex: 'all',
     ageRange: 'all',
   })
 

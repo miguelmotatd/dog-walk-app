@@ -59,7 +59,10 @@
     "summary": "Summary",
     "available": "Available",
     "out_on_walk": "Out on walk",
-    "unavailable": "Unavailable"
+    "unavailable": "Unavailable",
+    "sex": "Sex",
+    "male": "Male",
+    "female": "Female"
   },
   "startWalk": {
     "title": "Start Walk",
@@ -132,7 +135,10 @@
     "under1": "Under 1 year",
     "between1And3": "1 to 3 years",
     "between4And7": "4 to 7 years",
-    "over8": "8+ years"
+    "over8": "8+ years",
+    "allSexes": "All sexes",
+    "male": "Male",
+    "female": "Female"
   },
   "dogForm": {
     "createTitle": "Create dog",
@@ -149,6 +155,9 @@
     "estimatedBirthYear": "Estimated birth year",
     "summary": "Summary",
     "active": "Active",
-    "imageUrl": "Image URL"
+    "imageUrl": "Image URL",
+    "photo": "Photo",
+    "sex": "Sex",
+    "noSex": "No sex selected"
   }
 }

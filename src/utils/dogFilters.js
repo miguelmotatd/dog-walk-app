@@ -1,5 +1,5 @@
 export function filterDogs(dogs, filters) {
-  const { searchText, size, ageRange } = filters
+  const { searchText, size, sex, ageRange } = filters
 
   return dogs.filter((dog) => {
     const matchesName =
@@ -9,12 +9,15 @@ export function filterDogs(dogs, filters) {
     const matchesSize =
       !size || size === 'all' || dog.size?.toLowerCase() === size.toLowerCase()
 
+    const matchesSex =
+      !sex || sex === 'all' || dog.sex === sex
+
     const matchesAge =
       !ageRange || ageRange === 'all'
         ? true
         : matchesAgeRange(dog.age, ageRange)
 
-    return matchesName && matchesSize && matchesAge
+    return matchesName && matchesSize && matchesSex && matchesAge
   })
 }
 
