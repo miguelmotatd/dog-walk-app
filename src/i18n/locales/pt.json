@@ -75,7 +75,9 @@
     "checkoutNotesOptional": "Notas de saída (opcional)",
     "checkoutNotesPlaceholder": "Algo útil antes de sair...",
     "startWalk": "Iniciar passeio",
-    "startingWalk": "A iniciar passeio..."
+    "startingWalk": "A iniciar passeio...",
+    "selectThisDog": "Selecionar",
+    "selectedDog": "Selecionado"
   },
   "publicWalk": {
     "title": "Passeio",
@@ -120,7 +122,7 @@
     "preference": "Preferência",
     "route": "Percurso"
   },
-    "dogsFilter": {
+  "dogsFilter": {
     "searchPlaceholder": "Pesquisar por nome...",
     "allSizes": "Todos os portes",
     "small": "Pequeno",
@@ -146,6 +148,7 @@
     "noSize": "Sem porte definido",
     "estimatedBirthYear": "Ano de nascimento estimado",
     "summary": "Resumo",
-    "active": "Ativo"
+    "active": "Ativo",
+    "imageUrl": "URL da imagem"
   }
 }

@@ -12,41 +12,85 @@ export default function DogCard({
     <div
       onClick={onClick}
       style={{
-        border: selected ? '2px solid var(--azl-primary)' : '1px solid var(--azl-border)',
-        borderRadius: 'var(--azl-radius)',
-        padding: '1rem',
-        background: selected ? '#fff8ef' : 'var(--azl-surface)',
-        boxShadow: 'var(--azl-shadow)',
+        border: selected ? '2px solid #2563eb' : '1px solid #ddd',
+        borderRadius: '14px',
+        overflow: 'hidden',
+        cursor: onClick ? 'pointer' : 'default',
+        background: selected ? '#eff6ff' : '#fff',
+        boxShadow: selected
+          ? '0 0 0 3px rgba(37,99,235,0.08)'
+          : '0 2px 8px rgba(0,0,0,0.06)',
+        transition: 'all 0.15s ease',
       }}
     >
-      <h3 style={{ marginTop: 0, marginBottom: '0.75rem' }}>{dog.name}</h3>
+      <div style={imageWrapperStyle}>
+        {dog.image_url ? (
+          <img
+            src={dog.image_url}
+            alt={dog.name}
+            style={imageStyle}
+          />
+        ) : (
+          <div style={placeholderStyle}>🐶</div>
+        )}
+      </div>
 
-      <p style={rowStyle}>
-        <strong>{t('dog.status')}:</strong>{' '}
-        <span style={getStatusStyle(dog.status)}>{t(`dog.${dog.status}`)}</span>
-      </p>
+      <div style={{ padding: '1rem' }}>
+        <h3 style={{ marginTop: 0, marginBottom: '0.75rem' }}>
+          {dog.name}
+        </h3>
 
-      {dog.size && (
         <p style={rowStyle}>
-          <strong>{t('dog.size')}:</strong> {dog.size}
+          <strong>{t('dog.status')}:</strong>{' '}
+          <span style={getStatusStyle(dog.status)}>
+            {t(`dog.${dog.status}`)}
+          </span>
         </p>
-      )}
 
-      {dog.age != null && (
-        <p style={rowStyle}>
-          <strong>{t('dog.age')}:</strong> {formatAge(dog.age, i18n.language)}
-        </p>
-      )}
+        {dog.size && (
+          <p style={rowStyle}>
+            <strong>{t('dog.size')}:</strong> {dog.size}
+          </p>
+        )}
 
-      {dog.notes_summary && (
-        <p style={rowStyle}>
-          <strong>{t('dog.summary')}:</strong> {dog.notes_summary}
-        </p>
-      )}
+        {dog.age != null && (
+          <p style={rowStyle}>
+            <strong>{t('dog.age')}:</strong>{' '}
+            {formatAge(dog.age, i18n.language)}
+          </p>
+        )}
 
-      {action && <div style={{ marginTop: '0.9rem' }}>{action}</div>}
+        {dog.notes_summary && (
+          <p style={rowStyle}>
+            <strong>{t('dog.summary')}:</strong> {dog.notes_summary}
+          </p>
+        )}
+
+        {action && <div style={{ marginTop: '1rem' }}>{action}</div>}
+      </div>
     </div>
   )
+}
+
+const imageWrapperStyle = {
+  width: '100%',
+  height: '220px',
+  background: '#f3f4f6',
+}
+
+const imageStyle = {
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+}
+
+const placeholderStyle = {
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: '3rem',
 }
 
 const rowStyle = {
@@ -61,8 +105,6 @@ function getStatusStyle(status) {
 }
 
 function formatAge(age, language = 'en') {
-  if (age == null) return '-'
-
   if (language === 'pt') {
     return age === 1 ? '1 ano' : `${age} anos`
   }

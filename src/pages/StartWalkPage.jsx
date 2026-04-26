@@ -135,14 +135,33 @@ export default function StartWalkPage() {
         {!loadingDogs && !dogsError && filteredDogs.length > 0 && (
           <div style={scrollAreaStyle}>
             <div style={dogGridStyle}>
-              {filteredDogs.map((dog) => (
-                <DogCard
-                  key={dog.id}
-                  dog={dog}
-                  selected={String(dog.id) === String(dogId)}
-                  onClick={() => setDogId(String(dog.id))}
-                />
-              ))}
+              {filteredDogs.map((dog) => {
+                const isSelected = String(dog.id) === String(dogId)
+
+                return (
+                  <DogCard
+                    key={dog.id}
+                    dog={dog}
+                    selected={isSelected}
+                    onClick={() => setDogId(String(dog.id))}
+                    action={
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setDogId(String(dog.id))
+                        }}
+                        style={{
+                          ...selectDogButtonStyle,
+                          background: isSelected ? '#166534' : '#8a5a2b',
+                        }}
+                      >
+                        {isSelected ? t('startWalk.selectedDog') : t('startWalk.selectThisDog')}
+                      </button>
+                    }
+                  />
+                )
+              })}
             </div>
           </div>
         )}
@@ -196,7 +215,7 @@ export default function StartWalkPage() {
         </div>
         <div>
           <p style={{ color: '#666', fontSize: '0.95rem' }}>
-            {t('startWalk.expectedReturnTime')}
+            <strong>{t('startWalk.expectedReturnTime')}</strong>
           </p>
         </div>
 
@@ -273,7 +292,7 @@ const sectionTitleStyle = {
 
 const dogGridStyle = {
   display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
   gap: '1rem',
 }
 
@@ -349,4 +368,15 @@ const readonlyBoxStyle = {
   background: '#f9fafb',
   color: '#444',
   boxSizing: 'border-box',
+}
+
+const selectDogButtonStyle = {
+  width: '100%',
+  color: '#fff',
+  border: 'none',
+  padding: '0.85rem 1rem',
+  borderRadius: '999px',
+  fontSize: '1rem',
+  fontWeight: 700,
+  cursor: 'pointer',
 }

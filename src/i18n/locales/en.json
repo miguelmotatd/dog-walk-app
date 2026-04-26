@@ -75,7 +75,9 @@
     "checkoutNotesOptional": "Checkout notes (optional)",
     "checkoutNotesPlaceholder": "Anything useful before leaving...",
     "startWalk": "Start walk",
-    "startingWalk": "Starting walk..."
+    "startingWalk": "Starting walk...",
+    "selectThisDog": "Select",
+    "selectedDog": "Selected"
   },
   "publicWalk": {
     "title": "Walk",
@@ -146,6 +148,7 @@
     "noSize": "No size selected",
     "estimatedBirthYear": "Estimated birth year",
     "summary": "Summary",
-    "active": "Active"
+    "active": "Active",
+    "imageUrl": "Image URL"
   }
 }

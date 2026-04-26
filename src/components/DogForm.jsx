@@ -9,6 +9,7 @@ export default function DogForm({
     estimated_birth_year: '',
     notes_summary: '',
     is_active: true,
+    image_url: initialValues.image_url ?? '',
   },
   onSubmit,
   submitLabel,
@@ -52,6 +53,7 @@ export default function DogForm({
           : null,
         notes_summary: formData.notes_summary.trim() || null,
         is_active: formData.is_active,
+        image_url: formData.image_url.trim() || null,
       })
     } finally {
       setSubmitting(false)
@@ -68,6 +70,16 @@ export default function DogForm({
             value={formData.name}
             onChange={(e) => handleChange('name', e.target.value)}
             required
+            style={inputStyle}
+          />
+        </div>
+
+        <div>
+          <label style={labelStyle}>{t('dogForm.imageUrl')}</label>
+          <input
+            type="url"
+            value={formData.image_url}
+            onChange={(e) => handleChange('image_url', e.target.value)}
             style={inputStyle}
           />
         </div>
