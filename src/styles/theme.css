@@ -1,0 +1,80 @@
+:root {
+  --azl-bg: #f7f3ec;
+  --azl-surface: #ffffff;
+  --azl-text: #2f2f2f;
+  --azl-muted: #6b6b6b;
+
+  --azl-primary: #8a5a2b;
+  --azl-primary-dark: #6f451f;
+  --azl-accent: #d89b45;
+  --azl-success: #2f7d4f;
+  --azl-danger: #b42318;
+
+  --azl-border: #e4d8c8;
+  --azl-radius: 16px;
+  --azl-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+body {
+  margin: 0;
+  background: var(--azl-bg);
+  color: var(--azl-text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.azl-page {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.azl-card {
+  background: var(--azl-surface);
+  border: 1px solid var(--azl-border);
+  border-radius: var(--azl-radius);
+  box-shadow: var(--azl-shadow);
+  padding: 1.25rem;
+}
+
+.azl-button-primary {
+  background: var(--azl-primary);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 0.75rem 1.1rem;
+  cursor: pointer;
+}
+
+.azl-button-primary:hover {
+  background: var(--azl-primary-dark);
+}
+
+.azl-button-secondary {
+  background: #fff8ef;
+  color: var(--azl-primary-dark);
+  border: 1px solid var(--azl-border);
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+}
+
+.azl-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--azl-border);
+  border-radius: 12px;
+  box-sizing: border-box;
+  background: white;
+}
+
+.azl-section-title {
+  margin-top: 0;
+  color: var(--azl-primary-dark);
+}

@@ -21,7 +21,7 @@ export default function StartWalkPage() {
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [checkoutNotes, setCheckoutNotes] = useState('')
-  const [expectedReturnAt, setExpectedReturnAt] = useState(getDefaultReturnTime())
+  const [expectedReturnAt] = useState(getTodayAt11AM())
 
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
@@ -104,10 +104,19 @@ export default function StartWalkPage() {
   return (
     <div style={pageStyle}>
       <div style={headerRowStyle}>
-        <div>
-          <h1 style={titleStyle}>{t('startWalk.title')}</h1>
-          <p style={subtitleStyle}>{t('startWalk.subtitle')}</p>
+        <div style={brandRowStyle}>
+          <img
+            src="https://azlfa.com/wp-content/uploads/2020/03/logo_cor-1.png"
+            alt="AZL Logo"
+            style={logoStyle}
+          />
+
+          <div>
+            <h1 style={titleStyle}>{t('startWalk.title')}</h1>
+            <p style={subtitleStyle}>{t('startWalk.subtitle')}</p>
+          </div>
         </div>
+
         <LanguageSwitcher />
       </div>
 
@@ -174,19 +183,7 @@ export default function StartWalkPage() {
               style={inputStyle}
             />
           </div>
-
-          <div>
-            <label style={labelStyle}>{t('startWalk.expectedReturnTime')}</label>
-            <input
-              type="datetime-local"
-              value={expectedReturnAt}
-              onChange={(e) => setExpectedReturnAt(e.target.value)}
-              required
-              style={inputStyle}
-            />
-          </div>
         </div>
-
         <div style={{ marginTop: '1rem' }}>
           <label style={labelStyle}>{t('startWalk.checkoutNotesOptional')}</label>
           <textarea
@@ -197,6 +194,11 @@ export default function StartWalkPage() {
             placeholder={t('startWalk.checkoutNotesPlaceholder')}
           />
         </div>
+        <div>
+          <p style={{ color: '#666', fontSize: '0.95rem' }}>
+            {t('startWalk.expectedReturnTime')}
+          </p>
+        </div>
 
         {submitError && <p style={errorStyle}>{submitError}</p>}
 
@@ -204,8 +206,9 @@ export default function StartWalkPage() {
           <button
             type="submit"
             disabled={submitting || !dogId}
+            className="azl-button-primary"
             style={{
-              ...primaryButtonStyle,
+              //...primaryButtonStyle,
               opacity: submitting || !dogId ? 0.7 : 1,
               cursor: submitting || !dogId ? 'not-allowed' : 'pointer',
             }}
@@ -218,15 +221,16 @@ export default function StartWalkPage() {
   )
 }
 
-function getDefaultReturnTime() {
+function getTodayAt11AM() {
   const date = new Date()
-  date.setHours(date.getHours() + 1)
+
+  date.setHours(11, 0, 0, 0)
 
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
-  const hours = String(date.getHours()).padStart(2, '0')
-  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const hours = '11'
+  const minutes = '00'
 
   return `${year}-${month}-${day}T${hours}:${minutes}`
 }
@@ -322,4 +326,27 @@ const scrollAreaStyle = {
   maxHeight: '60vh',
   overflowY: 'auto',
   paddingRight: '0.25rem',
+}
+
+const brandRowStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '1rem',
+}
+
+const logoStyle = {
+  width: '72px',
+  height: '72px',
+  objectFit: 'contain',
+  flexShrink: 0,
+}
+
+const readonlyBoxStyle = {
+  width: '100%',
+  padding: '0.75rem',
+  border: '1px solid #ddd',
+  borderRadius: '10px',
+  background: '#f9fafb',
+  color: '#444',
+  boxSizing: 'border-box',
 }

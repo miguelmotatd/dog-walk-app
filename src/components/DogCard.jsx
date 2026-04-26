@@ -12,14 +12,11 @@ export default function DogCard({
     <div
       onClick={onClick}
       style={{
-        border: selected ? '2px solid #2563eb' : '1px solid #ddd',
-        borderRadius: '12px',
+        border: selected ? '2px solid var(--azl-primary)' : '1px solid var(--azl-border)',
+        borderRadius: 'var(--azl-radius)',
         padding: '1rem',
-        cursor: onClick ? 'pointer' : 'default',
-        background: selected ? '#eff6ff' : '#fff',
-        boxShadow: selected
-          ? '0 0 0 3px rgba(37, 99, 235, 0.08)'
-          : '0 1px 2px rgba(0,0,0,0.04)',
+        background: selected ? '#fff8ef' : 'var(--azl-surface)',
+        boxShadow: 'var(--azl-shadow)',
       }}
     >
       <h3 style={{ marginTop: 0, marginBottom: '0.75rem' }}>{dog.name}</h3>

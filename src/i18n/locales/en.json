@@ -71,7 +71,7 @@
     "yourName": "Your name",
     "phoneNumber": "Phone number",
     "emailOptional": "Email (optional)",
-    "expectedReturnTime": "Expected return time",
+    "expectedReturnTime": "All dogs must return by 11:00 AM.",
     "checkoutNotesOptional": "Checkout notes (optional)",
     "checkoutNotesPlaceholder": "Anything useful before leaving...",
     "startWalk": "Start walk",

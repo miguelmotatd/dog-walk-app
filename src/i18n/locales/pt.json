@@ -71,7 +71,7 @@
     "yourName": "O seu nome",
     "phoneNumber": "Número de telefone",
     "emailOptional": "Email (opcional)",
-    "expectedReturnTime": "Hora prevista de regresso",
+    "expectedReturnTime": "Os cães devem regressar até às 11 horas",
     "checkoutNotesOptional": "Notas de saída (opcional)",
     "checkoutNotesPlaceholder": "Algo útil antes de sair...",
     "startWalk": "Iniciar passeio",
