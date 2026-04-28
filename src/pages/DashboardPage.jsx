@@ -19,6 +19,7 @@ export default function DashboardPage() {
   const [warningText, setWarningText] = useState('')
   const [savingWarning, setSavingWarning] = useState(false)
   const [warningError, setWarningError] = useState('')
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
 
   const [filters, setFilters] = useState({
     searchText: '',
@@ -26,6 +27,15 @@ export default function DashboardPage() {
     sex: 'all',
     ageRange: 'all',
   })
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     loadDogs()
@@ -234,8 +244,12 @@ export default function DashboardPage() {
                   <th style={thStyle}>{t('startWalk.dog')}</th>
                   <th style={thStyle}>{t('dashboard.walker')}</th>
                   <th style={thStyle}>{t('dashboard.phone')}</th>
-                  <th style={thStyle}>{t('dashboard.checkedOut')}</th>
-                  <th style={thStyle}>{t('dashboard.expectedReturn')}</th>
+                  {!isMobile && (
+                    <th style={thStyle}>{t('dashboard.checkedOut')}</th>
+                  )}
+                  {!isMobile && (
+                    <th style={thStyle}>{t('dashboard.expectedReturn')}</th>
+                  )}
                   <th style={thStyle}>{t('dashboard.status')}</th>
                   <th style={thStyle}>{t('dashboard.actions')}</th>
                 </tr>
@@ -250,17 +264,22 @@ export default function DashboardPage() {
                         {walk.phone}
                       </a>
                     </td>
-                    <td style={tdStyle}>
-                      {formatDateTime(walk.checked_out_at, i18n.language)}
-                    </td>
-                    <td style={tdStyle}>
-                      {formatDateTime(walk.expected_return_at, i18n.language)}
-                    </td>
+                    {!isMobile && (
+                      <td style={tdStyle}>
+                        {formatDateTime(walk.checked_out_at, i18n.language)}
+                      </td>
+                    )}
+                    {!isMobile && (
+                      <td style={tdStyle}>
+                        {formatDateTime(walk.expected_return_at, i18n.language)}
+                      </td>
+                    )}
                     <td style={tdStyle}>
                       <span
-                        style={
-                          walk.overdue ? overdueBadgeStyle : activeBadgeStyle
-                        }
+                        style={{
+                          ...(walk.overdue ? overdueBadgeStyle : activeBadgeStyle),
+                          fontSize: isMobile ? '0.95rem' : '0.85rem',
+                        }}
                       >
                         {walk.overdue
                           ? t('publicWalk.overdue')
@@ -471,9 +490,10 @@ const thStyle = {
   fontSize: '0.9rem',
 }
 
+
 const tdStyle = {
   borderBottom: '1px solid #f1eee9',
-  padding: '0.85rem',
+  padding: '1rem',
   verticalAlign: 'middle',
 }
 
