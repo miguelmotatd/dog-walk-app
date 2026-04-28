@@ -52,7 +52,10 @@
     "lockDog": "Bloquear",
     "unlockDog": "Desbloquear",
     "startWalkForPerson": "Iniciar passeio por pessoa",
-    "startedByVolunteer": "Iniciado por voluntário"
+    "startedByVolunteer": "Iniciado por voluntário",
+    "activeWalksCount": "{{count}} passeios ativos",
+    "dogsShown": "{{count}} de {{total}} cães apresentados",
+    "dogOutOnWalk": "Este cão está atualmente em passeio."
   },
   "dog": {
     "status": "Estado",

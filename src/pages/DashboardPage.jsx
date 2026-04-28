@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import DogCard from '../components/DogCard'
-import LanguageSwitcher from '../components/LanguageSwitcher'
-import { useMemo } from 'react'
 import DogFilters from '../components/DogFilters'
+import LanguageSwitcher from '../components/LanguageSwitcher'
 import { filterDogs } from '../utils/dogFilters'
-import { Link } from 'react-router-dom'
 
 export default function DashboardPage() {
   const { t, i18n } = useTranslation()
+
   const [dogs, setDogs] = useState([])
   const [activeWalks, setActiveWalks] = useState([])
   const [loadingDogs, setLoadingDogs] = useState(true)
   const [loadingWalks, setLoadingWalks] = useState(true)
   const [errorDogs, setErrorDogs] = useState('')
   const [errorWalks, setErrorWalks] = useState('')
-  
+
   const [filters, setFilters] = useState({
     searchText: '',
     size: 'all',
@@ -28,6 +28,8 @@ export default function DashboardPage() {
     loadDogs()
     loadActiveWalks()
   }, [])
+
+  const filteredDogs = useMemo(() => filterDogs(dogs, filters), [dogs, filters])
 
   const loadDogs = async () => {
     setLoadingDogs(true)
@@ -46,17 +48,6 @@ export default function DashboardPage() {
     }
 
     setLoadingDogs(false)
-  }
-
-  const filteredDogs = useMemo(() => {
-    return filterDogs(dogs, filters)
-  }, [dogs, filters])
-
-  const handleFilterChange = (key, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: value,
-    }))
   }
 
   const loadActiveWalks = async () => {
@@ -78,6 +69,10 @@ export default function DashboardPage() {
     setLoadingWalks(false)
   }
 
+  const handleFilterChange = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }))
+  }
+
   const handleLogout = async () => {
     await supabase.auth.signOut()
   }
@@ -86,6 +81,7 @@ export default function DashboardPage() {
     const confirmed = window.confirm(
       t('dashboard.confirmReturn', { dogName: walk.dog_name })
     )
+
     if (!confirmed) return
 
     const { error } = await supabase.rpc('return_walk', {
@@ -99,13 +95,12 @@ export default function DashboardPage() {
       return
     }
 
-    await loadActiveWalks()
-    await loadDogs()
+    await Promise.all([loadActiveWalks(), loadDogs()])
   }
 
   const handleToggleAvailability = async (dog) => {
     if (dog.status === 'out_on_walk') {
-      alert('This dog is currently out on a walk.')
+      alert(t('dashboard.dogOutOnWalk', 'This dog is currently out on a walk.'))
       return
     }
 
@@ -128,49 +123,56 @@ export default function DashboardPage() {
   }
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '2rem',
-          gap: '1rem',
-        }}
-      >
-        <h1>{t('dashboard.title')}</h1>
+    <div style={pageStyle}>
+      <header style={headerStyle}>
+        <div>
+          <h1 style={titleStyle}>{t('dashboard.title')}</h1>
+          <p style={subtitleStyle}>
+            {activeWalks.length > 0
+              ? t('dashboard.activeWalksCount', {
+                  count: activeWalks.length,
+                  defaultValue: '{{count}} active walks',
+                })
+              : t('dashboard.noActiveWalks')}
+          </p>
+        </div>
 
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-          <Link to="/walks/new" style={newDogLinkStyle}>
+        <div style={topActionsStyle}>
+          <Link to="/walks/new" style={primaryLinkStyle}>
             {t('dashboard.startWalkForPerson')}
           </Link>
-          <Link to="/dogs/new" style={newDogLinkStyle}>
+
+          <Link to="/dogs/new" style={secondaryLinkStyle}>
             {t('dogForm.create')}
           </Link>
+
           <LanguageSwitcher />
-          <button onClick={handleLogout}>{t('common.logout')}</button>
+
+          <button onClick={handleLogout} style={ghostButtonStyle}>
+            {t('common.logout')}
+          </button>
         </div>
-      </div>
+      </header>
 
-      <section style={{ marginBottom: '3rem' }}>
-        <h2>{t('dashboard.activeWalks')}</h2>
+      <section style={cardStyle}>
+        <div style={sectionHeaderStyle}>
+          <h2 style={sectionTitleStyle}>{t('dashboard.activeWalks')}</h2>
 
-        {loadingWalks && <p>{t('common.loading')}</p>}
-        {errorWalks && <p style={{ color: 'crimson' }}>{errorWalks}</p>}
+          <button onClick={loadActiveWalks} style={smallButtonStyle}>
+            {t('common.refresh')}
+          </button>
+        </div>
+
+        {loadingWalks && <p style={mutedTextStyle}>{t('common.loading')}</p>}
+        {errorWalks && <p style={errorStyle}>{errorWalks}</p>}
 
         {!loadingWalks && !errorWalks && activeWalks.length === 0 && (
-          <p>{t('dashboard.noActiveWalks')}</p>
+          <div style={emptyStateStyle}>{t('dashboard.noActiveWalks')}</div>
         )}
 
         {!loadingWalks && !errorWalks && activeWalks.length > 0 && (
-          <div style={{ overflowX: 'auto' }}>
-            <table
-              style={{
-                width: '100%',
-                borderCollapse: 'collapse',
-                marginTop: '1rem',
-              }}
-            >
+          <div style={tableWrapperStyle}>
+            <table style={tableStyle}>
               <thead>
                 <tr>
                   <th style={thStyle}>{t('startWalk.dog')}</th>
@@ -185,10 +187,12 @@ export default function DashboardPage() {
               <tbody>
                 {activeWalks.map((walk) => (
                   <tr key={walk.walk_id}>
-                    <td style={tdStyle}>{walk.dog_name}</td>
+                    <td style={tdStrongStyle}>{walk.dog_name}</td>
                     <td style={tdStyle}>{walk.person_name}</td>
                     <td style={tdStyle}>
-                      <a href={`tel:${walk.phone}`}>{walk.phone}</a>
+                      <a href={`tel:${walk.phone}`} style={phoneLinkStyle}>
+                        {walk.phone}
+                      </a>
                     </td>
                     <td style={tdStyle}>
                       {formatDateTime(walk.checked_out_at, i18n.language)}
@@ -197,10 +201,21 @@ export default function DashboardPage() {
                       {formatDateTime(walk.expected_return_at, i18n.language)}
                     </td>
                     <td style={tdStyle}>
-                      {walk.overdue ? t('publicWalk.overdue') : t('publicWalk.active')}
+                      <span
+                        style={
+                          walk.overdue ? overdueBadgeStyle : activeBadgeStyle
+                        }
+                      >
+                        {walk.overdue
+                          ? t('publicWalk.overdue')
+                          : t('publicWalk.active')}
+                      </span>
                     </td>
                     <td style={tdStyle}>
-                      <button onClick={() => handleReturnWalk(walk)}>
+                      <button
+                        onClick={() => handleReturnWalk(walk)}
+                        style={returnButtonStyle}
+                      >
                         {t('dashboard.returnDog')}
                       </button>
                     </td>
@@ -212,50 +227,46 @@ export default function DashboardPage() {
         )}
       </section>
 
-      <section>
-        <h2>{t('dashboard.dogs')}</h2>
+      <section style={cardStyle}>
+        <div style={sectionHeaderStyle}>
+          <div>
+            <h2 style={sectionTitleStyle}>{t('dashboard.dogs')}</h2>
+            <p style={sectionHintStyle}>
+              {t('dashboard.dogsShown', {
+                count: filteredDogs.length,
+                total: dogs.length,
+                defaultValue: '{{count}} of {{total}} dogs shown',
+              })}
+            </p>
+          </div>
+
+          <button onClick={loadDogs} style={smallButtonStyle}>
+            {t('common.refresh')}
+          </button>
+        </div>
 
         <DogFilters filters={filters} onChange={handleFilterChange} />
 
-        {loadingDogs && <p>{t('common.loading')}</p>}
-        {errorDogs && <p style={{ color: 'crimson' }}>{errorDogs}</p>}
+        {loadingDogs && <p style={mutedTextStyle}>{t('common.loading')}</p>}
+        {errorDogs && <p style={errorStyle}>{errorDogs}</p>}
 
         {!loadingDogs && !errorDogs && filteredDogs.length === 0 && (
-          <p>{t('dashboard.noDogs')}</p>
+          <div style={emptyStateStyle}>{t('dashboard.noDogs')}</div>
         )}
 
         {!loadingDogs && !errorDogs && filteredDogs.length > 0 && (
           <div style={dogsScrollAreaStyle}>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-                gap: '1rem',
-                marginTop: '1rem',
-              }}
-            >
+            <div style={dogGridStyle}>
               {filteredDogs.map((dog) => (
                 <DogCard
                   key={dog.id}
                   dog={dog}
                   action={
-                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <div style={dogActionsStyle}>
                       <button
                         onClick={() => handleToggleAvailability(dog)}
                         disabled={dog.status === 'out_on_walk'}
-                        style={{
-                          ...toggleButtonStyle,
-                          background:
-                            dog.status === 'unavailable' ? '#dcfce7' : '#fee2e2',
-                          color:
-                            dog.status === 'unavailable' ? '#166534' : '#991b1b',
-                          border:
-                            dog.status === 'unavailable'
-                              ? '1px solid #86efac'
-                              : '1px solid #fca5a5',
-                          opacity: dog.status === 'out_on_walk' ? 0.6 : 1,
-                          cursor: dog.status === 'out_on_walk' ? 'not-allowed' : 'pointer',
-                        }}
+                        style={getToggleButtonStyle(dog.status)}
                       >
                         {dog.status === 'unavailable'
                           ? t('dashboard.unlockDog')
@@ -282,44 +293,237 @@ function formatDateTime(value, language) {
   return new Date(value).toLocaleString(language === 'pt' ? 'pt-PT' : 'en-US')
 }
 
+const pageStyle = {
+  padding: '2rem',
+  maxWidth: '1200px',
+  margin: '0 auto',
+  background: '#f7f3ec',
+  minHeight: '100vh',
+}
+
+const headerStyle = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'flex-start',
+  gap: '1rem',
+  marginBottom: '1.5rem',
+  flexWrap: 'wrap',
+}
+
+const titleStyle = {
+  margin: 0,
+  color: '#6f451f',
+}
+
+const subtitleStyle = {
+  margin: '0.4rem 0 0 0',
+  color: '#6b6b6b',
+}
+
+const topActionsStyle = {
+  display: 'flex',
+  gap: '0.75rem',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  flexWrap: 'wrap',
+}
+
+const cardStyle = {
+  border: '1px solid #e4d8c8',
+  borderRadius: '18px',
+  padding: '1.25rem',
+  background: '#fff',
+  marginBottom: '1.5rem',
+  boxShadow: '0 4px 14px rgba(0, 0, 0, 0.06)',
+}
+
+const sectionHeaderStyle = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'flex-start',
+  gap: '1rem',
+  marginBottom: '1rem',
+  flexWrap: 'wrap',
+}
+
+const sectionTitleStyle = {
+  margin: 0,
+  color: '#6f451f',
+}
+
+const sectionHintStyle = {
+  margin: '0.35rem 0 0 0',
+  color: '#6b6b6b',
+  fontSize: '0.95rem',
+}
+
+const tableWrapperStyle = {
+  overflowX: 'auto',
+  border: '1px solid #eee',
+  borderRadius: '14px',
+}
+
+const tableStyle = {
+  width: '100%',
+  borderCollapse: 'collapse',
+  minWidth: '780px',
+}
+
 const thStyle = {
   textAlign: 'left',
-  borderBottom: '1px solid #ddd',
-  padding: '0.75rem',
+  borderBottom: '1px solid #e4d8c8',
+  padding: '0.85rem',
+  background: '#fff8ef',
+  color: '#6f451f',
+  fontSize: '0.9rem',
 }
 
 const tdStyle = {
-  borderBottom: '1px solid #eee',
-  padding: '0.75rem',
+  borderBottom: '1px solid #f1eee9',
+  padding: '0.85rem',
+  verticalAlign: 'middle',
+}
+
+const tdStrongStyle = {
+  ...tdStyle,
+  fontWeight: 700,
+  color: '#2f2f2f',
+}
+
+const phoneLinkStyle = {
+  color: '#1d4ed8',
+  textDecoration: 'none',
+  fontWeight: 700,
+}
+
+const activeBadgeStyle = {
+  display: 'inline-block',
+  padding: '0.35rem 0.65rem',
+  borderRadius: '999px',
+  background: '#dcfce7',
+  color: '#166534',
+  fontWeight: 700,
+  fontSize: '0.85rem',
+}
+
+const overdueBadgeStyle = {
+  ...activeBadgeStyle,
+  background: '#fee2e2',
+  color: '#991b1b',
+}
+
+const returnButtonStyle = {
+  background: '#8a5a2b',
+  color: '#fff',
+  border: 'none',
+  padding: '0.55rem 0.8rem',
+  borderRadius: '999px',
+  cursor: 'pointer',
+  fontWeight: 700,
+}
+
+const primaryLinkStyle = {
+  display: 'inline-block',
+  padding: '0.65rem 0.95rem',
+  borderRadius: '999px',
+  background: '#8a5a2b',
+  color: '#fff',
+  textDecoration: 'none',
+  fontWeight: 700,
+}
+
+const secondaryLinkStyle = {
+  display: 'inline-block',
+  padding: '0.65rem 0.95rem',
+  borderRadius: '999px',
+  background: '#fff8ef',
+  color: '#6f451f',
+  textDecoration: 'none',
+  border: '1px solid #e4d8c8',
+  fontWeight: 700,
+}
+
+const ghostButtonStyle = {
+  padding: '0.65rem 0.95rem',
+  borderRadius: '999px',
+  border: '1px solid #e4d8c8',
+  background: '#fff',
+  color: '#6f451f',
+  cursor: 'pointer',
+  fontWeight: 700,
+}
+
+const smallButtonStyle = {
+  padding: '0.5rem 0.8rem',
+  borderRadius: '999px',
+  border: '1px solid #e4d8c8',
+  background: '#fff8ef',
+  color: '#6f451f',
+  cursor: 'pointer',
+  fontWeight: 700,
+}
+
+const mutedTextStyle = {
+  color: '#6b6b6b',
+}
+
+const errorStyle = {
+  color: 'crimson',
+}
+
+const emptyStateStyle = {
+  padding: '1.25rem',
+  borderRadius: '14px',
+  background: '#f7f3ec',
+  color: '#6b6b6b',
+  textAlign: 'center',
 }
 
 const dogsScrollAreaStyle = {
-  maxHeight: '60vh',
+  maxHeight: '70vh',
   overflowY: 'auto',
-  paddingRight: '0.25rem',
+  padding: '0.5rem',
+  border: '1px solid #e4d8c8',
+  borderRadius: '14px',
+  background: '#f7f3ec',
 }
 
-const newDogLinkStyle = {
-  display: 'inline-block',
-  padding: '0.55rem 0.8rem',
-  borderRadius: '8px',
-  background: '#dbeafe',
-  color: '#1d4ed8',
-  textDecoration: 'none',
+const dogGridStyle = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+  gap: '1rem',
+}
+
+const dogActionsStyle = {
+  display: 'flex',
+  gap: '0.5rem',
+  flexWrap: 'wrap',
 }
 
 const editLinkStyle = {
   display: 'inline-block',
-  padding: '0.45rem 0.7rem',
-  borderRadius: '8px',
-  background: '#f3f4f6',
-  color: '#111827',
+  padding: '0.5rem 0.75rem',
+  borderRadius: '999px',
+  background: '#fff',
+  color: '#6f451f',
   textDecoration: 'none',
-  border: '1px solid #d1d5db',
+  border: '1px solid #e4d8c8',
+  fontWeight: 700,
 }
 
-const toggleButtonStyle = {
-  padding: '0.45rem 0.7rem',
-  borderRadius: '8px',
-  fontSize: '0.95rem',
+function getToggleButtonStyle(status) {
+  const isUnavailable = status === 'unavailable'
+  const isOut = status === 'out_on_walk'
+
+  return {
+    padding: '0.5rem 0.75rem',
+    borderRadius: '999px',
+    fontSize: '0.95rem',
+    fontWeight: 700,
+    background: isUnavailable ? '#dcfce7' : '#fee2e2',
+    color: isUnavailable ? '#166534' : '#991b1b',
+    border: isUnavailable ? '1px solid #86efac' : '1px solid #fca5a5',
+    opacity: isOut ? 0.55 : 1,
+    cursor: isOut ? 'not-allowed' : 'pointer',
+  }
 }

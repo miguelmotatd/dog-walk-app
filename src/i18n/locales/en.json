@@ -52,7 +52,10 @@
     "lockDog": "Lock",
     "unlockDog": "Unlock",
     "startWalkForPerson": "Start walk for person",
-    "startedByVolunteer": "Started by volunteer"
+    "startedByVolunteer": "Started by volunteer",
+    "activeWalksCount": "{{count}} active walks",
+    "dogsShown": "{{count}} of {{total}} dogs shown",
+    "dogOutOnWalk": "This dog is currently out on a walk."
   },
   "dog": {
     "status": "Status",
