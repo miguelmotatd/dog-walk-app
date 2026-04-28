@@ -16,6 +16,9 @@ export default function DashboardPage() {
   const [loadingWalks, setLoadingWalks] = useState(true)
   const [errorDogs, setErrorDogs] = useState('')
   const [errorWalks, setErrorWalks] = useState('')
+  const [warningText, setWarningText] = useState('')
+  const [savingWarning, setSavingWarning] = useState(false)
+  const [warningError, setWarningError] = useState('')
 
   const [filters, setFilters] = useState({
     searchText: '',
@@ -27,6 +30,7 @@ export default function DashboardPage() {
   useEffect(() => {
     loadDogs()
     loadActiveWalks()
+    loadWarningText()
   }, [])
 
   const filteredDogs = useMemo(() => filterDogs(dogs, filters), [dogs, filters])
@@ -67,6 +71,58 @@ export default function DashboardPage() {
     }
 
     setLoadingWalks(false)
+  }
+
+  const loadWarningText = async () => {
+    const { data, error } = await supabase
+      .from('app_settings')
+      .select('value')
+      .eq('key', 'start_walk_warning')
+      .single()
+
+    if (!error && data?.value) {
+      setWarningText(data.value)
+    }
+  }
+
+  const saveWarningText = async () => {
+    setSavingWarning(true)
+    setWarningError('')
+
+    const { error } = await supabase
+      .from('app_settings')
+      .update({
+        value: warningText,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('key', 'start_walk_warning')
+
+    if (error) {
+      setWarningError(error.message)
+    }
+
+    setSavingWarning(false)
+  }
+
+  const clearWarningText = async () => {
+    setSavingWarning(true)
+    setWarningError('')
+
+    const { error } = await supabase
+      .from('app_settings')
+      .update({
+        value: '',
+        updated_at: new Date().toISOString(),
+      })
+      .eq('key', 'start_walk_warning')
+
+    if (error) {
+      setWarningError(error.message)
+    } else {
+      setWarningText('')
+    }
+
+    setSavingWarning(false)
   }
 
   const handleFilterChange = (key, value) => {
@@ -283,6 +339,43 @@ export default function DashboardPage() {
             </div>
           </div>
         )}
+      </section>
+
+      <section style={cardStyle}>
+        <div style={sectionHeaderStyle}>
+          <h2 style={sectionTitleStyle}>
+            {t('dashboard.startWalkWarning', 'Start walk warning')}
+          </h2>
+        </div>
+
+        <textarea
+          value={warningText}
+          onChange={(e) => setWarningText(e.target.value)}
+          rows={4}
+          style={textareaStyle}
+        />
+
+        {warningError && <p style={errorStyle}>{warningError}</p>}
+
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <button
+            onClick={saveWarningText}
+            disabled={savingWarning}
+            style={smallButtonStyle}
+          >
+            {savingWarning
+              ? t('common.saving', 'Saving...')
+              : t('common.save', 'Save')}
+          </button>
+
+          <button
+            onClick={clearWarningText}
+            disabled={savingWarning || !warningText}
+            style={clearButtonStyle}
+          >
+            {t('dashboard.clearWarning', 'Clear warning')}
+          </button>
+        </div>
       </section>
     </div>
   )
@@ -526,4 +619,24 @@ function getToggleButtonStyle(status) {
     opacity: isOut ? 0.55 : 1,
     cursor: isOut ? 'not-allowed' : 'pointer',
   }
+}
+const textareaStyle = {
+  width: '100%',
+  padding: '0.75rem',
+  border: '1px solid #d6c8b8',
+  borderRadius: '10px',
+  fontSize: '1rem',
+  boxSizing: 'border-box',
+  resize: 'vertical',
+  marginBottom: '1rem',
+}
+
+const clearButtonStyle = {
+  padding: '0.5rem 0.8rem',
+  borderRadius: '999px',
+  border: '1px solid #fca5a5',
+  background: '#fee2e2',
+  color: '#991b1b',
+  cursor: 'pointer',
+  fontWeight: 700,
 }

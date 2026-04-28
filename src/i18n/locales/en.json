@@ -1,6 +1,7 @@
 {
   "common": {
     "loading": "Loading...",
+    "saving": "Saving...",
     "refresh": "Refresh",
     "back": "Back",
     "logout": "Logout",
@@ -55,7 +56,9 @@
     "startedByVolunteer": "Started by volunteer",
     "activeWalksCount": "{{count}} active walks",
     "dogsShown": "{{count}} of {{total}} dogs shown",
-    "dogOutOnWalk": "This dog is currently out on a walk."
+    "dogOutOnWalk": "This dog is currently out on a walk.",
+    "startWalkWarning": "Start walk warning",
+    "clearWarning": "Clear warning"
   },
   "dog": {
     "status": "Status",
@@ -86,7 +89,8 @@
     "startingWalk": "Starting walk...",
     "selectThisDog": "Select",
     "selectedDog": "Selected",
-    "rulesLink": "Read walk rules"
+    "rulesLink": "Read walk rules",
+    "warningTitle": "Important"
   },
   "publicWalk": {
     "title": "Walk",

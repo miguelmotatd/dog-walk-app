@@ -25,6 +25,7 @@ export default function StartWalkPage() {
 
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
+  const [warningText, setWarningText] = useState('')
 
   const [filters, setFilters] = useState({
     searchText: '',
@@ -35,6 +36,7 @@ export default function StartWalkPage() {
 
   useEffect(() => {
     loadAvailableDogs()
+    loadWarningText()
   }, [])
 
   const nameInputRef = useRef(null)
@@ -59,6 +61,18 @@ export default function StartWalkPage() {
     }
 
     setLoadingDogs(false)
+  }
+
+  const loadWarningText = async () => {
+    const { data, error } = await supabase
+      .from('app_settings')
+      .select('value')
+      .eq('key', 'start_walk_warning')
+      .single()
+
+    if (!error && data?.value) {
+      setWarningText(data.value)
+    }
   }
 
   const filteredDogs = useMemo(() => {
@@ -146,6 +160,13 @@ export default function StartWalkPage() {
       </div>
 
       <div style={sectionStyle}>
+        {warningText && (
+          <div style={warningStyle}>
+            <strong>{t('startWalk.warningTitle', 'Important')}</strong>
+            <p style={{ margin: '0.4rem 0 0 0' }}>{warningText}</p>
+          </div>
+        )}
+        
         <h2 style={sectionTitleStyle}>{t('startWalk.dog')}</h2>
 
         <DogFilters filters={filters} onChange={handleFilterChange} />
@@ -420,4 +441,13 @@ const rulesLinkStyle = {
   color: '#8a5a2b',
   fontWeight: 700,
   textDecoration: 'underline',
+}
+
+const warningStyle = {
+  border: '1px solid #facc15',
+  background: '#fefce8',
+  color: '#713f12',
+  borderRadius: '14px',
+  padding: '1rem',
+  marginBottom: '1.5rem',
 }

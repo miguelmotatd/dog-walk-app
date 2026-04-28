@@ -1,6 +1,7 @@
 {
   "common": {
     "loading": "A carregar...",
+    "saving": "A guardar...",
     "refresh": "Atualizar",
     "back": "Voltar",
     "logout": "Terminar sessão",
@@ -55,7 +56,9 @@
     "startedByVolunteer": "Iniciado por voluntário",
     "activeWalksCount": "{{count}} passeios ativos",
     "dogsShown": "{{count}} de {{total}} cães apresentados",
-    "dogOutOnWalk": "Este cão está atualmente em passeio."
+    "dogOutOnWalk": "Este cão está atualmente em passeio.",
+    "startWalkWarning": "Aviso do início do passeio",
+    "clearWarning": "Limpar aviso"
   },
   "dog": {
     "status": "Estado",
@@ -86,7 +89,8 @@
     "startingWalk": "A iniciar passeio...",
     "selectThisDog": "Selecionar",
     "selectedDog": "Selecionado",
-    "rulesLink": "Ler regras dos passeios"
+    "rulesLink": "Ler regras dos passeios",
+    "warningTitle": "Importante"
   },
   "publicWalk": {
     "title": "Passeio",
