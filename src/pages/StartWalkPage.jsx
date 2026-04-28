@@ -130,6 +130,15 @@ export default function StartWalkPage() {
           <div>
             <h1 style={titleStyle}>{t('startWalk.title')}</h1>
             <p style={subtitleStyle}>{t('startWalk.subtitle')}</p>
+
+            <a
+              href="https://docs.google.com/document/d/121mJXs3Dis_BSsKHLLygauHPeH-toqBqzoVbQ40J4gE/edit?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={rulesLinkStyle}
+            >
+              {t('startWalk.rulesLink', 'Read walk rules')}
+            </a>
           </div>
         </div>
 
@@ -403,4 +412,12 @@ const selectDogButtonStyle = {
   fontSize: '1rem',
   fontWeight: 700,
   cursor: 'pointer',
+}
+
+const rulesLinkStyle = {
+  display: 'inline-block',
+  marginTop: '0.75rem',
+  color: '#8a5a2b',
+  fontWeight: 700,
+  textDecoration: 'underline',
 }

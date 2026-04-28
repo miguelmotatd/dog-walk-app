@@ -85,7 +85,8 @@
     "startWalk": "Iniciar passeio",
     "startingWalk": "A iniciar passeio...",
     "selectThisDog": "Selecionar",
-    "selectedDog": "Selecionado"
+    "selectedDog": "Selecionado",
+    "rulesLink": "Ler regras dos passeios"
   },
   "publicWalk": {
     "title": "Passeio",

@@ -85,7 +85,8 @@
     "startWalk": "Start walk",
     "startingWalk": "Starting walk...",
     "selectThisDog": "Select",
-    "selectedDog": "Selected"
+    "selectedDog": "Selected",
+    "rulesLink": "Read walk rules"
   },
   "publicWalk": {
     "title": "Walk",
