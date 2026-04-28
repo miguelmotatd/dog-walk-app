@@ -23,7 +23,9 @@
     "backToLogin": "Back to login",
     "sendResetEmail": "Send reset email",
     "sending": "Sending...",
-    "resetEmailSent": "Password reset email sent. Please check your inbox."
+    "resetEmailSent": "Password reset email sent. Please check your inbox.",
+    "subtitle": "Access the volunteer dashboard to manage walks and dogs.",
+    "resetSubtitle": "Enter your email and we will send you a password reset link."
   },
   "resetPassword": {
     "title": "Reset password",

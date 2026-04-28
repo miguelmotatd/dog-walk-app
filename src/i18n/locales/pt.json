@@ -23,7 +23,9 @@
     "backToLogin": "Voltar ao login",
     "sendResetEmail": "Enviar email de recuperação",
     "sending": "A enviar...",
-    "resetEmailSent": "Email de recuperação enviado. Verifique a sua caixa de entrada."
+    "resetEmailSent": "Email de recuperação enviado. Verifique a sua caixa de entrada.",
+    "subtitle": "Aceda ao painel de voluntários para gerir passeios e cães.",
+    "resetSubtitle": "Insira o seu email e enviaremos um link para redefinir a palavra-passe."
   },
   "resetPassword": {
     "title": "Redefinir palavra-passe",
