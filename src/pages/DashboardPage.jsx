@@ -141,6 +141,9 @@ export default function DashboardPage() {
         <h1>{t('dashboard.title')}</h1>
 
         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+          <Link to="/walks/new" style={newDogLinkStyle}>
+            {t('dashboard.startWalkForPerson')}
+          </Link>
           <Link to="/dogs/new" style={newDogLinkStyle}>
             {t('dogForm.create')}
           </Link>

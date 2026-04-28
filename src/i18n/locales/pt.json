@@ -50,7 +50,9 @@
     "returnByVolunteer": "Regressado por voluntário",
     "confirmReturn": "Dar entrada do {{dogName}}?",
     "lockDog": "Bloquear",
-    "unlockDog": "Desbloquear"
+    "unlockDog": "Desbloquear",
+    "startWalkForPerson": "Iniciar passeio por pessoa",
+    "startedByVolunteer": "Iniciado por voluntário"
   },
   "dog": {
     "status": "Estado",

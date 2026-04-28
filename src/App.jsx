@@ -12,6 +12,7 @@ import PublicWalkPage from './pages/PublicWalkPage'
 import MyWalksPage from './pages/MyWalksPage'
 import CreateDogPage from './pages/CreateDogPage'
 import EditDogPage from './pages/EditDogPage'
+import VolunteerStartWalkPage from './pages/VolunteerStartWalkPage'
 
 export default function App() {
   const [session, setSession] = useState(undefined)
@@ -79,6 +80,15 @@ export default function App() {
         <Route
           path="*"
           element={<Navigate to={session ? '/' : '/login'} replace />}
+        />
+
+        <Route
+          path="/walks/new"
+          element={
+            <ProtectedRoute session={session}>
+              <VolunteerStartWalkPage />
+            </ProtectedRoute>
+          }
         />
       </Routes>
     </BrowserRouter>

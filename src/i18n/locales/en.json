@@ -50,7 +50,9 @@
     "returnByVolunteer": "Returned by volunteer",
     "confirmReturn": "Return {{dogName}}?",
     "lockDog": "Lock",
-    "unlockDog": "Unlock"
+    "unlockDog": "Unlock",
+    "startWalkForPerson": "Start walk for person",
+    "startedByVolunteer": "Started by volunteer"
   },
   "dog": {
     "status": "Status",
