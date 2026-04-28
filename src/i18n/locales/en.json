@@ -138,7 +138,13 @@
     "over8": "8+ years",
     "allSexes": "All sexes",
     "male": "Male",
-    "female": "Female"
+    "female": "Female",
+    "filters": "Filters",
+    "name": "Name",
+    "sex": "Sex",
+    "size": "Size",
+    "age": "Age",
+    "clear": "Clear filters"
   },
   "dogForm": {
     "createTitle": "Create dog",

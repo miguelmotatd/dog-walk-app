@@ -138,7 +138,13 @@
     "over8": "8+ anos",
     "allSexes": "Todos os sexos",
     "male": "Macho",
-    "female": "Fêmea"
+    "female": "Fêmea",
+    "filters": "Filtros",
+    "name": "Nome",
+    "sex": "Sexo",
+    "size": "Porte",
+    "age": "Idade",
+    "clear": "Limpar filtros"
   },
   "dogForm": {
     "createTitle": "Criar cão",
