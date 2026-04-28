@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
@@ -37,6 +37,9 @@ export default function StartWalkPage() {
     loadAvailableDogs()
   }, [])
 
+  const nameInputRef = useRef(null)
+  const selectedDog = dogs.find((d) => String(d.id) === String(dogId))
+
   const loadAvailableDogs = async () => {
     setLoadingDogs(true)
     setDogsError('')
@@ -67,6 +70,18 @@ export default function StartWalkPage() {
       ...prev,
       [key]: value,
     }))
+  }
+  const selectDog = (id) => {
+    setDogId(String(id))
+
+    setTimeout(() => {
+      nameInputRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      })
+
+      nameInputRef.current?.focus()
+    }, 100)
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -150,7 +165,7 @@ export default function StartWalkPage() {
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation()
-                          setDogId(String(dog.id))
+                          selectDog(dog.id)
                         }}
                         style={{
                           ...selectDogButtonStyle,
@@ -169,12 +184,17 @@ export default function StartWalkPage() {
       </div>
 
       <form onSubmit={handleSubmit} style={sectionStyle}>
-        <h2 style={sectionTitleStyle}>{t('startWalk.title')}</h2>
+        <h2 style={sectionTitleStyle}>
+          {selectedDog
+            ? `${t('startWalk.title')} 🐶 ${selectedDog.name}`
+            : t('startWalk.title')}
+        </h2>
 
         <div style={formGridStyle}>
           <div>
             <label style={labelStyle}>{t('startWalk.yourName')}</label>
             <input
+              ref={nameInputRef}
               type="text"
               value={personName}
               onChange={(e) => setPersonName(e.target.value)}
@@ -343,9 +363,12 @@ const errorStyle = {
 }
 
 const scrollAreaStyle = {
-  maxHeight: '60vh',
+  maxHeight: '520px',
   overflowY: 'auto',
-  paddingRight: '0.25rem',
+  padding: '0.5rem',
+  border: '1px solid #e4d8c8',
+  borderRadius: '14px',
+  background: '#f7f3ec',
 }
 
 const brandRowStyle = {
