@@ -92,7 +92,6 @@ export default function DogForm({
           <input
             type="file"
             accept="image/*"
-            capture="environment"
             onChange={(e) => handleChange('image_file', e.target.files?.[0] || null)}
             style={inputStyle}
           />
