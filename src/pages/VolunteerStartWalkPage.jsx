@@ -92,11 +92,9 @@ export default function VolunteerStartWalkPage() {
     <div style={pageStyle}>
       <div style={headerStyle}>
         <div>
-          <h1 style={{ margin: 0 }}>{t('dashboard.startWalkForPerson')}</h1>
+          <h1 style={titleStyle}>{t('dashboard.startWalkForPerson')}</h1>
           <div style={{ marginTop: '0.75rem' }}>
-            <Link to="/" style={linkStyle}>
-              {t('common.back')}
-            </Link>
+            <Link to="/" style={backLinkStyle}>{t('common.back')}</Link>
           </div>
         </div>
         <LanguageSwitcher />
@@ -346,4 +344,16 @@ const linkStyle = {
 
 const errorStyle = {
   color: 'crimson',
+}
+
+const backLinkStyle = {
+  display: 'inline-block',
+  marginTop: '0.75rem',
+  color: '#6f451f',
+  fontWeight: 700,
+}
+
+const titleStyle = {
+  margin: 0,
+  color: '#6f451f',
 }

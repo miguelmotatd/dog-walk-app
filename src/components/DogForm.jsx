@@ -102,11 +102,12 @@ export default function DogForm({
                 src={formData.image_url}
                 alt={formData.name || 'Dog'}
                 style={{
-                  width: '160px',
-                  height: '120px',
+                  width: '180px',
+                  height: '135px',
                   objectFit: 'cover',
-                  borderRadius: '12px',
-                  border: '1px solid #ddd',
+                  borderRadius: '14px',
+                  border: '1px solid #e4d8c8',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
                 }}
               />
             </div>
@@ -204,7 +205,7 @@ export default function DogForm({
 
 const formStyle = {
   display: 'grid',
-  gap: '1rem',
+  gap: '1.25rem',
 }
 
 const gridStyle = {
@@ -216,43 +217,57 @@ const gridStyle = {
 const labelStyle = {
   display: 'block',
   marginBottom: '0.4rem',
-  fontWeight: 600,
+  fontWeight: 700,
+  color: '#2f2f2f',
 }
 
 const inputStyle = {
   width: '100%',
-  padding: '0.75rem',
-  border: '1px solid #ccc',
-  borderRadius: '10px',
+  padding: '0.8rem',
+  border: '1px solid #d6c8b8',
+  borderRadius: '12px',
   fontSize: '1rem',
   boxSizing: 'border-box',
+  background: '#fff',
 }
 
 const textareaStyle = {
   width: '100%',
-  padding: '0.75rem',
-  border: '1px solid #ccc',
-  borderRadius: '10px',
+  padding: '0.8rem',
+  border: '1px solid #d6c8b8',
+  borderRadius: '12px',
   fontSize: '1rem',
   boxSizing: 'border-box',
   resize: 'vertical',
+  background: '#fff',
 }
 
 const checkboxRowStyle = {
   display: 'flex',
   alignItems: 'center',
   gap: '0.6rem',
+  padding: '0.85rem 1rem',
+  border: '1px solid #e4d8c8',
+  borderRadius: '14px',
+  background: '#fff8ef',
+  color: '#6f451f',
+  fontWeight: 700,
 }
 
 const primaryButtonStyle = {
-  background: '#2563eb',
+  background: '#8a5a2b',
   color: '#fff',
   border: 'none',
-  padding: '0.8rem 1rem',
-  borderRadius: '10px',
+  padding: '0.9rem 1.2rem',
+  borderRadius: '999px',
   fontSize: '1rem',
+  fontWeight: 700,
 }
 
 const errorStyle = {
-  color: 'crimson',
+  padding: '0.8rem',
+  borderRadius: '12px',
+  background: '#fee2e2',
+  color: '#991b1b',
+  border: '1px solid #fca5a5',
 }

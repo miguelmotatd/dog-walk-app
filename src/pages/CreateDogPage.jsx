@@ -27,11 +27,9 @@ export default function CreateDogPage() {
     <div style={pageStyle}>
       <div style={headerStyle}>
         <div>
-          <h1 style={{ margin: 0 }}>{t('dogForm.createTitle')}</h1>
+          <h1 style={titleStyle}>{t('dogForm.createTitle')}</h1>
           <div style={{ marginTop: '0.75rem' }}>
-            <Link to="/" style={linkStyle}>
-              {t('common.back')}
-            </Link>
+            <Link to="/" style={backLinkStyle}>{t('common.back')}</Link>
           </div>
         </div>
         <LanguageSwitcher />
@@ -49,10 +47,18 @@ export default function CreateDogPage() {
   )
 }
 
+
+const titleStyle = {
+  margin: 0,
+  color: '#6f451f',
+}
+
 const pageStyle = {
   padding: '2rem',
-  maxWidth: '860px',
+  maxWidth: '900px',
   margin: '0 auto',
+  minHeight: '100vh',
+  background: '#f7f3ec',
 }
 
 const headerStyle = {
@@ -61,20 +67,31 @@ const headerStyle = {
   alignItems: 'flex-start',
   gap: '1rem',
   marginBottom: '1.5rem',
+  flexWrap: 'wrap',
 }
 
 const cardStyle = {
-  border: '1px solid #e5e5e5',
-  borderRadius: '14px',
+  border: '1px solid #e4d8c8',
+  borderRadius: '18px',
   padding: '1.25rem',
   background: '#fff',
+  boxShadow: '0 4px 14px rgba(0, 0, 0, 0.06)',
 }
 
 const linkStyle = {
   display: 'inline-block',
-  padding: '0.55rem 0.8rem',
-  borderRadius: '8px',
-  background: '#eff6ff',
-  color: '#1d4ed8',
+  padding: '0.55rem 0.85rem',
+  borderRadius: '999px',
+  background: '#fff8ef',
+  color: '#6f451f',
   textDecoration: 'none',
+  border: '1px solid #e4d8c8',
+  fontWeight: 700,
+}
+
+const backLinkStyle = {
+  display: 'inline-block',
+  marginTop: '0.75rem',
+  color: '#6f451f',
+  fontWeight: 700,
 }
