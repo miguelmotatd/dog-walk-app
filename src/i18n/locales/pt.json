@@ -61,7 +61,8 @@
     "dogOutOnWalk": "Este cão está atualmente em passeio.",
     "startWalkWarning": "Aviso do início do passeio",
     "clearWarning": "Limpar aviso",
-    "reportsTitle": "Relatórios"
+    "reportsTitle": "Relatórios",
+    "moreOptions": "Mais opções"
   },
   "dog": {
     "status": "Estado",

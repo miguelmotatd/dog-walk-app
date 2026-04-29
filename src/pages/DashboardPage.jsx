@@ -20,6 +20,7 @@ export default function DashboardPage() {
   const [savingWarning, setSavingWarning] = useState(false)
   const [warningError, setWarningError] = useState('')
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  const [moreOpen, setMoreOpen] = useState(false)
 
   const [filters, setFilters] = useState({
     searchText: '',
@@ -90,8 +91,8 @@ export default function DashboardPage() {
       .eq('key', 'start_walk_warning')
       .single()
 
-    if (!error && data?.value) {
-      setWarningText(data.value)
+    if (!error) {
+      setWarningText(data?.value || '')
     }
   }
 
@@ -107,9 +108,7 @@ export default function DashboardPage() {
       })
       .eq('key', 'start_walk_warning')
 
-    if (error) {
-      setWarningError(error.message)
-    }
+    if (error) setWarningError(error.message)
 
     setSavingWarning(false)
   }
@@ -203,24 +202,61 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <div style={topActionsStyle}>
-          <Link to="/reports" style={secondaryLinkStyle}>
-            {t('dashboard.reportsTitle')}
-          </Link>
-          <Link to="/walks/new" style={primaryLinkStyle}>
-            {t('dashboard.startWalkForPerson')}
-          </Link>
+        {isMobile ? (
+          <div style={mobileActionsStyle}>
+            <Link to="/walks/new" style={mobilePrimaryActionStyle}>
+              {t('dashboard.startWalkForPerson')}
+            </Link>
 
-          <Link to="/dogs/new" style={secondaryLinkStyle}>
-            {t('dogForm.create')}
-          </Link>
+            <button
+              type="button"
+              onClick={() => setMoreOpen((value) => !value)}
+              style={moreButtonStyle}
+            >
+              {t('dashboard.moreOptions')} {moreOpen ? '▲' : '▼'}
+            </button>
 
-          <LanguageSwitcher />
+            {moreOpen && (
+              <div style={mobileMenuStyle}>
+                <Link to="/reports" style={mobileMenuItemStyle}>
+                  {t('dashboard.reportsTitle')}
+                </Link>
 
-          <button onClick={handleLogout} style={ghostButtonStyle}>
-            {t('common.logout')}
-          </button>
-        </div>
+                <Link to="/dogs/new" style={mobileMenuItemStyle}>
+                  {t('dogForm.create')}
+                </Link>
+
+                <div style={mobileMenuFooterStyle}>
+                  <LanguageSwitcher />
+
+                  <button onClick={handleLogout} style={mobileMenuButtonStyle}>
+                    {t('common.logout')}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div style={topActionsStyle}>
+            <Link to="/reports" style={secondaryLinkStyle}>
+              {t('dashboard.reportsTitle')}
+            </Link>
+
+            <Link to="/walks/new" style={primaryLinkStyle}>
+              {t('dashboard.startWalkForPerson')}
+            </Link>
+
+            <Link to="/dogs/new" style={secondaryLinkStyle}>
+              {t('dogForm.create')}
+            </Link>
+
+            <LanguageSwitcher />
+
+            <button onClick={handleLogout} style={ghostButtonStyle}>
+              {t('common.logout')}
+            </button>
+          </div>
+        )}
       </header>
 
       <section style={cardStyle}>
@@ -239,70 +275,95 @@ export default function DashboardPage() {
           <div style={emptyStateStyle}>{t('dashboard.noActiveWalks')}</div>
         )}
 
-        {!loadingWalks && !errorWalks && activeWalks.length > 0 && (
-          <div style={tableWrapperStyle}>
-            <table style={tableStyle}>
-              <thead>
-                <tr>
-                  <th style={thStyle}>{t('startWalk.dog')}</th>
-                  <th style={thStyle}>{t('dashboard.walker')}</th>
-                  <th style={thStyle}>{t('dashboard.phone')}</th>
-                  {!isMobile && (
+        {!loadingWalks &&
+          !errorWalks &&
+          activeWalks.length > 0 &&
+          (isMobile ? (
+            <div style={mobileWalkListStyle}>
+              {activeWalks.map((walk) => (
+                <div key={walk.walk_id} style={mobileWalkCardStyle}>
+                  <div style={mobileWalkHeaderStyle}>
+                    <div>
+                      <strong style={mobileDogNameStyle}>{walk.dog_name}</strong>
+                      <div style={mobileWalkerStyle}>{walk.person_name}</div>
+                    </div>
+
+                    <span style={walk.overdue ? overdueBadgeStyle : activeBadgeStyle}>
+                      {walk.overdue
+                        ? t('publicWalk.overdue')
+                        : t('publicWalk.active')}
+                    </span>
+                  </div>
+
+                  <a href={`tel:${walk.phone}`} style={mobilePhoneStyle}>
+                    {walk.phone}
+                  </a>
+
+                  <div style={mobileWalkMetaStyle}>
+                    {t('dashboard.expectedReturn')}:{' '}
+                    {formatTime(walk.expected_return_at, i18n.language)}
+                  </div>
+
+                  <button
+                    onClick={() => handleReturnWalk(walk)}
+                    style={mobileReturnButtonStyle}
+                  >
+                    {t('dashboard.returnDog')}
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div style={tableWrapperStyle}>
+              <table style={tableStyle}>
+                <thead>
+                  <tr>
+                    <th style={thStyle}>{t('startWalk.dog')}</th>
+                    <th style={thStyle}>{t('dashboard.walker')}</th>
+                    <th style={thStyle}>{t('dashboard.phone')}</th>
                     <th style={thStyle}>{t('dashboard.checkedOut')}</th>
-                  )}
-                  {!isMobile && (
                     <th style={thStyle}>{t('dashboard.expectedReturn')}</th>
-                  )}
-                  <th style={thStyle}>{t('dashboard.status')}</th>
-                  <th style={thStyle}>{t('dashboard.actions')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {activeWalks.map((walk) => (
-                  <tr key={walk.walk_id}>
-                    <td style={tdStrongStyle}>{walk.dog_name}</td>
-                    <td style={tdStyle}>{walk.person_name}</td>
-                    <td style={tdStyle}>
-                      <a href={`tel:${walk.phone}`} style={phoneLinkStyle}>
-                        {walk.phone}
-                      </a>
-                    </td>
-                    {!isMobile && (
+                    <th style={thStyle}>{t('dashboard.status')}</th>
+                    <th style={thStyle}>{t('dashboard.actions')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {activeWalks.map((walk) => (
+                    <tr key={walk.walk_id}>
+                      <td style={tdStrongStyle}>{walk.dog_name}</td>
+                      <td style={tdStyle}>{walk.person_name}</td>
+                      <td style={tdStyle}>
+                        <a href={`tel:${walk.phone}`} style={phoneLinkStyle}>
+                          {walk.phone}
+                        </a>
+                      </td>
                       <td style={tdStyle}>
                         {formatDateTime(walk.checked_out_at, i18n.language)}
                       </td>
-                    )}
-                    {!isMobile && (
                       <td style={tdStyle}>
                         {formatDateTime(walk.expected_return_at, i18n.language)}
                       </td>
-                    )}
-                    <td style={tdStyle}>
-                      <span
-                        style={{
-                          ...(walk.overdue ? overdueBadgeStyle : activeBadgeStyle),
-                          fontSize: isMobile ? '0.95rem' : '0.85rem',
-                        }}
-                      >
-                        {walk.overdue
-                          ? t('publicWalk.overdue')
-                          : t('publicWalk.active')}
-                      </span>
-                    </td>
-                    <td style={tdStyle}>
-                      <button
-                        onClick={() => handleReturnWalk(walk)}
-                        style={returnButtonStyle}
-                      >
-                        {t('dashboard.returnDog')}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                      <td style={tdStyle}>
+                        <span style={walk.overdue ? overdueBadgeStyle : activeBadgeStyle}>
+                          {walk.overdue
+                            ? t('publicWalk.overdue')
+                            : t('publicWalk.active')}
+                        </span>
+                      </td>
+                      <td style={tdStyle}>
+                        <button
+                          onClick={() => handleReturnWalk(walk)}
+                          style={returnButtonStyle}
+                        >
+                          {t('dashboard.returnDog')}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
       </section>
 
       <section style={cardStyle}>
@@ -379,7 +440,7 @@ export default function DashboardPage() {
 
         {warningError && <p style={errorStyle}>{warningError}</p>}
 
-        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+        <div style={warningActionsStyle}>
           <button
             onClick={saveWarningText}
             disabled={savingWarning}
@@ -408,8 +469,16 @@ function formatDateTime(value, language) {
   return new Date(value).toLocaleString(language === 'pt' ? 'pt-PT' : 'en-US')
 }
 
+function formatTime(value, language) {
+  if (!value) return '-'
+  return new Date(value).toLocaleTimeString(language === 'pt' ? 'pt-PT' : 'en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
+
 const pageStyle = {
-  padding: '2rem',
+  padding: '1rem',
   maxWidth: '1200px',
   margin: '0 auto',
   background: '#f7f3ec',
@@ -417,22 +486,22 @@ const pageStyle = {
 }
 
 const headerStyle = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'flex-start',
+  display: 'grid',
   gap: '1rem',
-  marginBottom: '1.5rem',
-  flexWrap: 'wrap',
+  marginBottom: '1.25rem',
 }
 
 const titleStyle = {
   margin: 0,
   color: '#6f451f',
+  fontSize: 'clamp(2rem, 8vw, 3rem)',
+  lineHeight: 1.05,
 }
 
 const subtitleStyle = {
-  margin: '0.4rem 0 0 0',
+  margin: '0.5rem 0 0 0',
   color: '#6b6b6b',
+  fontSize: '1.1rem',
 }
 
 const topActionsStyle = {
@@ -443,12 +512,78 @@ const topActionsStyle = {
   flexWrap: 'wrap',
 }
 
+const mobileActionsStyle = {
+  display: 'grid',
+  gap: '0.75rem',
+}
+
+const mobilePrimaryActionStyle = {
+  display: 'block',
+  width: '100%',
+  boxSizing: 'border-box',
+  textAlign: 'center',
+  padding: '0.95rem 1rem',
+  borderRadius: '999px',
+  background: '#8a5a2b',
+  color: '#fff',
+  textDecoration: 'none',
+  fontWeight: 800,
+  fontSize: '1rem',
+}
+
+const moreButtonStyle = {
+  width: '100%',
+  padding: '0.8rem 1rem',
+  borderRadius: '999px',
+  border: '1px solid #e4d8c8',
+  background: '#fff8ef',
+  color: '#6f451f',
+  fontWeight: 800,
+  cursor: 'pointer',
+}
+
+const mobileMenuStyle = {
+  display: 'grid',
+  gap: '0.65rem',
+  padding: '0.75rem',
+  border: '1px solid #e4d8c8',
+  borderRadius: '16px',
+  background: '#fff',
+}
+
+const mobileMenuItemStyle = {
+  display: 'block',
+  padding: '0.75rem 0.85rem',
+  borderRadius: '12px',
+  background: '#fff8ef',
+  color: '#6f451f',
+  textDecoration: 'none',
+  fontWeight: 700,
+  border: '1px solid #e4d8c8',
+}
+
+const mobileMenuItemPlainStyle = {
+  display: 'flex',
+  justifyContent: 'flex-start',
+}
+
+const mobileMenuButtonStyle = {
+  padding: '0.75rem 0.85rem',
+  borderRadius: '12px',
+  border: '1px solid #e4d8c8',
+  background: '#fff',
+  color: '#6f451f',
+  fontWeight: 700,
+  cursor: 'pointer',
+  whiteSpace: 'nowrap',
+}
+
 const cardStyle = {
   border: '1px solid #e4d8c8',
   borderRadius: '18px',
-  padding: '1.25rem',
+  padding: '1rem',
   background: '#fff',
-  marginBottom: '1.5rem',
+  marginBottom: '1.25rem',
   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.06)',
 }
 
@@ -464,6 +599,7 @@ const sectionHeaderStyle = {
 const sectionTitleStyle = {
   margin: 0,
   color: '#6f451f',
+  fontSize: '1.65rem',
 }
 
 const sectionHintStyle = {
@@ -492,7 +628,6 @@ const thStyle = {
   color: '#6f451f',
   fontSize: '0.9rem',
 }
-
 
 const tdStyle = {
   borderBottom: '1px solid #f1eee9',
@@ -536,6 +671,63 @@ const returnButtonStyle = {
   borderRadius: '999px',
   cursor: 'pointer',
   fontWeight: 700,
+}
+
+const mobileWalkListStyle = {
+  display: 'grid',
+  gap: '0.8rem',
+}
+
+const mobileWalkCardStyle = {
+  border: '1px solid #e4d8c8',
+  borderRadius: '16px',
+  padding: '1rem',
+  background: '#fff8ef',
+}
+
+const mobileWalkHeaderStyle = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'flex-start',
+  gap: '0.75rem',
+}
+
+const mobileDogNameStyle = {
+  fontSize: '1.2rem',
+  color: '#2f2f2f',
+}
+
+const mobileWalkerStyle = {
+  marginTop: '0.2rem',
+  color: '#6b6b6b',
+}
+
+const mobilePhoneStyle = {
+  display: 'block',
+  marginTop: '0.75rem',
+  color: '#1d4ed8',
+  fontWeight: 800,
+  textDecoration: 'none',
+  fontSize: '1.05rem',
+}
+
+const mobileWalkMetaStyle = {
+  marginTop: '0.6rem',
+  color: '#6b6b6b',
+  fontSize: '0.95rem',
+}
+
+const mobileReturnButtonStyle = {
+  marginTop: '0.9rem',
+  width: '100%',
+  background: '#8a5a2b',
+  color: '#fff',
+  border: 'none',
+  padding: '0.85rem 1rem',
+  borderRadius: '999px',
+  cursor: 'pointer',
+  fontWeight: 800,
+  fontSize: '1rem',
 }
 
 const primaryLinkStyle = {
@@ -627,6 +819,33 @@ const editLinkStyle = {
   fontWeight: 700,
 }
 
+const textareaStyle = {
+  width: '100%',
+  padding: '0.75rem',
+  border: '1px solid #d6c8b8',
+  borderRadius: '10px',
+  fontSize: '1rem',
+  boxSizing: 'border-box',
+  resize: 'vertical',
+  marginBottom: '1rem',
+}
+
+const warningActionsStyle = {
+  display: 'flex',
+  gap: '0.75rem',
+  flexWrap: 'wrap',
+}
+
+const clearButtonStyle = {
+  padding: '0.5rem 0.8rem',
+  borderRadius: '999px',
+  border: '1px solid #fca5a5',
+  background: '#fee2e2',
+  color: '#991b1b',
+  cursor: 'pointer',
+  fontWeight: 700,
+}
+
 function getToggleButtonStyle(status) {
   const isUnavailable = status === 'unavailable'
   const isOut = status === 'out_on_walk'
@@ -643,23 +862,11 @@ function getToggleButtonStyle(status) {
     cursor: isOut ? 'not-allowed' : 'pointer',
   }
 }
-const textareaStyle = {
-  width: '100%',
-  padding: '0.75rem',
-  border: '1px solid #d6c8b8',
-  borderRadius: '10px',
-  fontSize: '1rem',
-  boxSizing: 'border-box',
-  resize: 'vertical',
-  marginBottom: '1rem',
-}
 
-const clearButtonStyle = {
-  padding: '0.5rem 0.8rem',
-  borderRadius: '999px',
-  border: '1px solid #fca5a5',
-  background: '#fee2e2',
-  color: '#991b1b',
-  cursor: 'pointer',
-  fontWeight: 700,
+const mobileMenuFooterStyle = {
+  display: 'flex',
+  gap: '0.75rem',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  flexWrap: 'wrap',
 }

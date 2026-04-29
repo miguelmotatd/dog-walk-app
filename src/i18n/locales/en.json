@@ -61,7 +61,8 @@
     "dogOutOnWalk": "This dog is currently out on a walk.",
     "startWalkWarning": "Start walk warning",
     "clearWarning": "Clear warning",
-    "reportsTitle": "Reports"
+    "reportsTitle": "Reports",
+    "moreOptions": "More options"
   },
   "dog": {
     "status": "Status",
