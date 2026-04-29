@@ -60,7 +60,8 @@
     "dogsShown": "{{count}} of {{total}} dogs shown",
     "dogOutOnWalk": "This dog is currently out on a walk.",
     "startWalkWarning": "Start walk warning",
-    "clearWarning": "Clear warning"
+    "clearWarning": "Clear warning",
+    "reportsTitle": "Reports"
   },
   "dog": {
     "status": "Status",
@@ -177,5 +178,32 @@
     "photo": "Photo",
     "sex": "Sex",
     "noSex": "No sex selected"
+  },
+  "reports": {
+    "title": "Reports",
+    "byDog": "By dog",
+    "byDate": "By date",
+    "dogReport": "Dog report",
+    "searchDog": "Search dog",
+    "searchDogPlaceholder": "Type dog name...",
+    "selectDog": "Select dog",
+    "chooseDog": "Choose a dog",
+    "walkHistory": "Walk history",
+    "noWalks": "No walks found.",
+    "notes": "Notes",
+    "noNotes": "No notes found.",
+    "dateReport": "Date report",
+    "selectDate": "Select date",
+    "totalWalks": "Walks",
+    "uniqueDogs": "Dogs walked",
+    "totalNotes": "Notes",
+    "lateReturns": "Late returns",
+    "walksForDay": "Walks for this day",
+    "noWalksForDay": "No walks found for this day.",
+    "notesForDay": "Notes for this day",
+    "noNotesForDay": "No notes found for this day.",
+    "late": "Late",
+    "onTime": "On time",
+    "duration": "Duration"
   }
 }

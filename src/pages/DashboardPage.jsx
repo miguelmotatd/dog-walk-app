@@ -204,6 +204,9 @@ export default function DashboardPage() {
         </div>
 
         <div style={topActionsStyle}>
+          <Link to="/reports" style={secondaryLinkStyle}>
+            {t('dashboard.reportsTitle')}
+          </Link>
           <Link to="/walks/new" style={primaryLinkStyle}>
             {t('dashboard.startWalkForPerson')}
           </Link>

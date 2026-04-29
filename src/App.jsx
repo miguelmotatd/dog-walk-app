@@ -13,6 +13,7 @@ import MyWalksPage from './pages/MyWalksPage'
 import CreateDogPage from './pages/CreateDogPage'
 import EditDogPage from './pages/EditDogPage'
 import VolunteerStartWalkPage from './pages/VolunteerStartWalkPage'
+import ReportsPage from './pages/ReportsPage'
 
 export default function App() {
   const [session, setSession] = useState(undefined)
@@ -87,6 +88,14 @@ export default function App() {
           element={
             <ProtectedRoute session={session}>
               <VolunteerStartWalkPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reports"
+          element={
+            <ProtectedRoute session={session}>
+              <ReportsPage />
             </ProtectedRoute>
           }
         />

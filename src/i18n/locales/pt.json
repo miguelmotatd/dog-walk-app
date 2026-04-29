@@ -60,7 +60,8 @@
     "dogsShown": "{{count}} de {{total}} cães apresentados",
     "dogOutOnWalk": "Este cão está atualmente em passeio.",
     "startWalkWarning": "Aviso do início do passeio",
-    "clearWarning": "Limpar aviso"
+    "clearWarning": "Limpar aviso",
+    "reportsTitle": "Relatórios"
   },
   "dog": {
     "status": "Estado",
@@ -177,5 +178,32 @@
     "photo": "Foto",
     "sex": "Sexo",
     "noSex": "Nenhum sexo selecionado"
+  },
+  "reports": {
+    "title": "Relatórios",
+    "byDog": "Por cão",
+    "byDate": "Por data",
+    "dogReport": "Relatório do cão",
+    "searchDog": "Pesquisar cão",
+    "searchDogPlaceholder": "Digite o nome do cão...",
+    "selectDog": "Selecionar cão",
+    "chooseDog": "Escolher um cão",
+    "walkHistory": "Histórico de passeios",
+    "noWalks": "Nenhum passeio encontrado.",
+    "notes": "Notas",
+    "noNotes": "Nenhuma nota encontrada.",
+    "dateReport": "Relatório por data",
+    "selectDate": "Selecionar data",
+    "totalWalks": "Passeios",
+    "uniqueDogs": "Cães passeados",
+    "totalNotes": "Notas",
+    "lateReturns": "Regressos atrasados",
+    "walksForDay": "Passeios deste dia",
+    "noWalksForDay": "Nenhum passeio encontrado para este dia.",
+    "notesForDay": "Notas deste dia",
+    "noNotesForDay": "Nenhuma nota encontrada para este dia.",
+    "late": "Atrasado",
+    "onTime": "A tempo",
+    "duration": "Duração"
   }
 }
