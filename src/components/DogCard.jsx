@@ -2,27 +2,22 @@ import { useTranslation } from 'react-i18next'
 
 export default function DogCard({ dog, onClick, action, selected = false }) {
   const { t, i18n } = useTranslation()
+  const isUnavailable = dog.status === 'unavailable'
 
   return (
     <div
       onClick={onClick}
-      style={{
-        border: selected ? '2px solid #8a5a2b' : '1px solid #e4d8c8',
-        borderRadius: '16px',
-        overflow: 'hidden',
-        cursor: onClick ? 'pointer' : 'default',
-        background: selected ? '#fff8ef' : '#fff',
-        boxShadow: selected
-          ? '0 0 0 4px rgba(138, 90, 43, 0.12)'
-          : '0 4px 14px rgba(0,0,0,0.08)',
-        transition: 'all 0.15s ease',
-      }}
+      style={cardStyle({ selected, onClick, isUnavailable })}
     >
       <div style={imageWrapperStyle}>
         {dog.image_url ? (
-          <img src={dog.image_url} alt={dog.name} style={imageStyle} />
+          <img src={dog.image_url} alt={dog.name} style={imageStyle(isUnavailable)} />
         ) : (
-          <div style={placeholderStyle}>🐶</div>
+          <div style={placeholderStyle(isUnavailable)}>🐶</div>
+        )}
+
+        {isUnavailable && (
+          <div style={unavailableOverlayStyle}>⛔ {t('dog.unavailable')}</div>
         )}
 
         <div style={statusBadgeStyle(dog.status)}>
@@ -81,23 +76,37 @@ const imageWrapperStyle = {
   borderBottom: '1px solid #eee',
 }
 
-const imageStyle = {
+const imageStyle = (isUnavailable) => ({
   width: '100%',
   height: '100%',
   objectFit: 'cover',
   objectPosition: 'center 40%',
   display: 'block',
-}
+  filter: isUnavailable ? 'grayscale(85%) saturate(40%)' : 'none',
+})
 
-const placeholderStyle = {
+const placeholderStyle = (isUnavailable) => ({
   width: '100%',
   height: '100%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   fontSize: '3.25rem',
-  color: '#8a5a2b',
-  background: '#f7f3ec',
+  color: isUnavailable ? '#6b7280' : '#8a5a2b',
+  background: isUnavailable ? '#f3f4f6' : '#f7f3ec',
+})
+
+const unavailableOverlayStyle = {
+  position: 'absolute',
+  left: '0.75rem',
+  bottom: '0.75rem',
+  padding: '0.28rem 0.55rem',
+  borderRadius: '8px',
+  fontSize: '0.75rem',
+  fontWeight: 700,
+  color: '#991b1b',
+  background: 'rgba(255, 255, 255, 0.92)',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
 }
 
 const contentStyle = {
@@ -131,6 +140,28 @@ const summaryStyle = {
   margin: '0.9rem 0 0 0',
   color: '#555',
   lineHeight: 1.4,
+}
+
+function cardStyle({ selected, onClick, isUnavailable }) {
+  return {
+    border: isUnavailable
+      ? '2px dashed #9ca3af'
+      : selected
+        ? '2px solid #8a5a2b'
+        : '1px solid #e4d8c8',
+    borderRadius: '16px',
+    overflow: 'hidden',
+    cursor: onClick ? 'pointer' : 'default',
+    background: isUnavailable
+      ? 'linear-gradient(180deg, #fafafa 0%, #f3f4f6 100%)'
+      : selected
+        ? '#fff8ef'
+        : '#fff',
+    boxShadow: selected
+      ? '0 0 0 4px rgba(138, 90, 43, 0.12)'
+      : '0 4px 14px rgba(0,0,0,0.08)',
+    transition: 'all 0.15s ease',
+  }
 }
 
 function statusBadgeStyle(status) {
