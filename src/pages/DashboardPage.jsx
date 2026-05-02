@@ -788,7 +788,7 @@ const emptyStateStyle = {
 }
 
 const dogsScrollAreaStyle = {
-  maxHeight: '70vh',
+  maxHeight: '120vh',
   overflowY: 'auto',
   padding: '0.5rem',
   border: '1px solid #e4d8c8',
