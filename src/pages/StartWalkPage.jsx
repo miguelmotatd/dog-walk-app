@@ -393,7 +393,7 @@ const errorStyle = {
 }
 
 const scrollAreaStyle = {
-  maxHeight: '520px',
+  maxHeight: '900px',
   overflowY: 'auto',
   padding: '0.5rem',
   border: '1px solid #e4d8c8',
