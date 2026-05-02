@@ -148,9 +148,9 @@ export default function DogForm({
             style={inputStyle}
           >
             <option value="">{t('dogForm.noSize')}</option>
-            <option value="small">{t('dogsFilter.small')}</option>
-            <option value="medium">{t('dogsFilter.medium')}</option>
-            <option value="large">{t('dogsFilter.large')}</option>
+            <option value={t('dogsFilter.small')}>{t('dogsFilter.small')}</option>
+            <option value={t('dogsFilter.medium')}>{t('dogsFilter.medium')}</option>
+            <option value={t('dogsFilter.large')}>{t('dogsFilter.large')}</option>
           </select>
         </div>
 

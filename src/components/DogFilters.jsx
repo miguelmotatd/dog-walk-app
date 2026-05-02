@@ -71,9 +71,9 @@ export default function DogFilters({ filters, onChange }) {
               style={selectStyle}
             >
               <option value="all">{t('dogsFilter.allSizes')}</option>
-              <option value="small">{t('dogsFilter.small')}</option>
-              <option value="medium">{t('dogsFilter.medium')}</option>
-              <option value="large">{t('dogsFilter.large')}</option>
+              <option value={t('dogsFilter.small')}>{t('dogsFilter.small')}</option>
+              <option value={t('dogsFilter.medium')}>{t('dogsFilter.medium')}</option>
+              <option value={t('dogsFilter.large')}>{t('dogsFilter.large')}</option>
             </select>
           </div>
 
