@@ -15,6 +15,7 @@ export default function StartWalkPage() {
   const [dogs, setDogs] = useState([])
   const [loadingDogs, setLoadingDogs] = useState(true)
   const [dogsError, setDogsError] = useState('')
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
 
   const [dogId, setDogId] = useState('')
   const [personName, setPersonName] = useState('')
@@ -33,14 +34,6 @@ export default function StartWalkPage() {
     sex: 'all',
     ageRange: 'all',
   })
-
-  useEffect(() => {
-    loadAvailableDogs()
-    loadWarningText()
-  }, [])
-
-  const nameInputRef = useRef(null)
-  const selectedDog = dogs.find((d) => String(d.id) === String(dogId))
 
   const loadAvailableDogs = async () => {
     setLoadingDogs(true)
@@ -74,6 +67,23 @@ export default function StartWalkPage() {
       setWarningText(data.value)
     }
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
+    loadAvailableDogs()
+    loadWarningText()
+  }, [])
+
+  const nameInputRef = useRef(null)
+  const selectedDog = dogs.find((d) => String(d.id) === String(dogId))
 
   const filteredDogs = useMemo(() => {
     return filterDogs(dogs, filters)
@@ -133,31 +143,59 @@ export default function StartWalkPage() {
 
   return (
     <div style={pageStyle}>
-      <div style={headerRowStyle}>
-        <div style={brandRowStyle}>
+      {isMobile ? (
+        <div style={mobileHeaderStyle}>
+          <img
+            src="https://azlfa.com/wp-content/uploads/2020/03/logo_cor-1.png"
+            alt="AZL Logo"
+            style={mobileLogoStyle}
+          />
+
+          <div style={mobileTitleContainerStyle}>
+            <h1 style={titleStyle}>{t('startWalk.title')}</h1>
+            <p style={subtitleStyle}>{t('startWalk.subtitle')}</p>
+          </div>
+
+          <div style={mobileHeaderActionsStyle}>
+            <a
+              href="https://zwqpkoluuwstrysxsfah.supabase.co/storage/v1/object/public/docs/regraspasseios.jpeg"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={mobileRulesLinkStyle}
+            >
+              {t('startWalk.rulesLink', 'Read walk rules')}
+            </a>
+
+            <LanguageSwitcher />
+          </div>
+        </div>
+      ) : (
+        <div style={desktopHeaderStyle}>
           <img
             src="https://azlfa.com/wp-content/uploads/2020/03/logo_cor-1.png"
             alt="AZL Logo"
             style={logoStyle}
           />
 
-          <div>
+          <div style={desktopTitleContainerStyle}>
             <h1 style={titleStyle}>{t('startWalk.title')}</h1>
             <p style={subtitleStyle}>{t('startWalk.subtitle')}</p>
+          </div>
 
+          <div style={desktopActionsStyle}>
             <a
-              href="https://docs.google.com/document/d/121mJXs3Dis_BSsKHLLygauHPeH-toqBqzoVbQ40J4gE/edit?usp=sharing"
+              href="https://zwqpkoluuwstrysxsfah.supabase.co/storage/v1/object/public/docs/regraspasseios.jpeg"
               target="_blank"
               rel="noopener noreferrer"
               style={rulesLinkStyle}
             >
               {t('startWalk.rulesLink', 'Read walk rules')}
             </a>
+
+            <LanguageSwitcher />
           </div>
         </div>
-
-        <LanguageSwitcher />
-      </div>
+      )}
 
       <div style={sectionStyle}>
         {warningText && (
@@ -311,12 +349,68 @@ const pageStyle = {
   margin: '0 auto',
 }
 
-const headerRowStyle = {
+const desktopHeaderStyle = {
+  display: 'grid',
+  gridTemplateColumns: 'auto 1fr auto',
+  gap: '1.5rem',
+  alignItems: 'center',
+  marginBottom: '2rem',
+  padding: '1rem',
+  borderRadius: '16px',
+  background: '#fff',
+  border: '1px solid #e4d8c8',
+}
+
+const desktopTitleContainerStyle = {
+  textAlign: 'center',
+}
+
+const desktopActionsStyle = {
   display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'flex-start',
+  gap: '1rem',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+}
+
+const mobileHeaderStyle = {
+  display: 'grid',
   gap: '1rem',
   marginBottom: '2rem',
+  padding: '1rem',
+  borderRadius: '16px',
+  background: '#fff',
+  border: '1px solid #e4d8c8',
+}
+
+const mobileLogoStyle = {
+  width: '56px',
+  height: '56px',
+  objectFit: 'contain',
+  justifySelf: 'center',
+}
+
+const mobileTitleContainerStyle = {
+  textAlign: 'center',
+}
+
+const mobileHeaderActionsStyle = {
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: '0.75rem',
+  marginTop: '0.5rem',
+}
+
+const mobileRulesLinkStyle = {
+  display: 'block',
+  padding: '0.65rem 0.95rem',
+  borderRadius: '999px',
+  background: '#fff8ef',
+  color: '#6f451f',
+  textDecoration: 'none',
+  border: '1px solid #e4d8c8',
+  fontWeight: 700,
+  textAlign: 'center',
+  fontSize: '0.95rem',
 }
 
 const titleStyle = {
@@ -378,15 +472,6 @@ const textareaStyle = {
   resize: 'vertical',
 }
 
-const primaryButtonStyle = {
-  background: '#2563eb',
-  color: '#fff',
-  border: 'none',
-  padding: '0.8rem 1rem',
-  borderRadius: '10px',
-  fontSize: '1rem',
-}
-
 const errorStyle = {
   color: 'crimson',
   marginTop: '1rem',
@@ -401,27 +486,11 @@ const scrollAreaStyle = {
   background: '#f7f3ec',
 }
 
-const brandRowStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '1rem',
-}
-
 const logoStyle = {
   width: '72px',
   height: '72px',
   objectFit: 'contain',
   flexShrink: 0,
-}
-
-const readonlyBoxStyle = {
-  width: '100%',
-  padding: '0.75rem',
-  border: '1px solid #ddd',
-  borderRadius: '10px',
-  background: '#f9fafb',
-  color: '#444',
-  boxSizing: 'border-box',
 }
 
 const selectDogButtonStyle = {
@@ -451,3 +520,4 @@ const warningStyle = {
   padding: '1rem',
   marginBottom: '1.5rem',
 }
+
