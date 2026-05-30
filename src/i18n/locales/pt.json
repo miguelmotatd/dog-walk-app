@@ -14,7 +14,7 @@
     "portuguese": "Português"
   },
   "login": {
-    "title": "Login de Voluntário",
+    "title": "Login de Voluntário {{volunteerName}}",
     "email": "Email",
     "password": "Palavra-passe",
     "login": "Entrar",
@@ -50,19 +50,21 @@
     "status": "Estado",
     "actions": "Ações",
     "returnDog": "Dar entrada do cão",
-    "returnByVolunteer": "Regressado por voluntário",
+    "returnByVolunteer": "Regressado por voluntário {{volunteerName}}",
     "confirmReturn": "Dar entrada do {{dogName}}?",
     "lockDog": "Bloquear",
     "unlockDog": "Desbloquear",
     "startWalkForPerson": "Iniciar passeio por pessoa",
-    "startedByVolunteer": "Iniciado por voluntário",
+    "startedByVolunteer": "Iniciado por voluntário {{volunteerName}}",
     "activeWalksCount": "{{count}} passeios ativos",
     "dogsShown": "{{count}} de {{total}} cães apresentados",
     "dogOutOnWalk": "Este cão está atualmente em passeio.",
     "startWalkWarning": "Aviso do início do passeio",
     "clearWarning": "Limpar aviso",
     "reportsTitle": "Relatórios",
-    "moreOptions": "Mais opções"
+    "moreOptions": "Mais opções",
+    "editWalk": "Editar passeio",
+    "selectDog": "Selecionar cão"
   },
   "dog": {
     "status": "Estado",
@@ -94,7 +96,9 @@
     "selectThisDog": "Selecionar",
     "selectedDog": "Selecionado",
     "rulesLink": "Regras passeios",
-    "warningTitle": "Importante"
+    "warningTitle": "Importante",
+    "titleWithDog": "Iniciar passeio com {{name}}"
+
   },
   "publicWalk": {
     "title": "Passeio",

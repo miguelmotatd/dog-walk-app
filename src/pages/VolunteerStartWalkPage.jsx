@@ -30,11 +30,14 @@ export default function VolunteerStartWalkPage() {
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
+  const [volunteerName, setVolunteerName] = useState('')
+
   const filteredDogs = filterDogs(dogs, filters)
   const selectedDog = dogs.find((dog) => String(dog.id) === String(dogId))
 
   useEffect(() => {
     loadDogs()
+    loadVolunteerName()
   }, [])
 
   const loadDogs = async () => {
@@ -75,7 +78,7 @@ export default function VolunteerStartWalkPage() {
       p_person_name: personName,
       p_phone: phone,
       p_expected_return_at: new Date(expectedReturnAt).toISOString(),
-      p_checkout_notes: checkoutNotes || t('dashboard.startedByVolunteer'),
+      p_checkout_notes: checkoutNotes || t('dashboard.startedByVolunteer', { volunteerName }),
       p_email: email || null,
     })
 
@@ -87,6 +90,19 @@ export default function VolunteerStartWalkPage() {
 
     navigate('/')
   }
+
+  const loadVolunteerName = async () => {
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return
+
+  const { data } = await supabase
+    .from('volunteer_profiles')
+    .select('name')
+    .eq('id', user.id)
+    .single()
+
+  if (data?.name) setVolunteerName(data.name)
+}
 
   return (
     <div style={pageStyle}>

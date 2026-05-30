@@ -14,7 +14,7 @@
     "portuguese": "Português"
   },
   "login": {
-    "title": "Volunteer Login",
+    "title": "Volunteer Login {{volunteerName}}",
     "email": "Email",
     "password": "Password",
     "login": "Login",
@@ -50,19 +50,21 @@
     "status": "Status",
     "actions": "Actions",
     "returnDog": "Return dog",
-    "returnByVolunteer": "Returned by volunteer",
+    "returnByVolunteer": "Returned by volunteer {{volunteerName}}",
     "confirmReturn": "Return {{dogName}}?",
     "lockDog": "Lock",
     "unlockDog": "Unlock",
     "startWalkForPerson": "Start walk for person",
-    "startedByVolunteer": "Started by volunteer",
+    "startedByVolunteer": "Started by volunteer {{volunteerName}}",
     "activeWalksCount": "{{count}} active walks",
     "dogsShown": "{{count}} of {{total}} dogs shown",
     "dogOutOnWalk": "This dog is currently out on a walk.",
     "startWalkWarning": "Start walk warning",
     "clearWarning": "Clear warning",
     "reportsTitle": "Reports",
-    "moreOptions": "More options"
+    "moreOptions": "More options",
+    "editWalk": "Edit walk",
+    "selectDog": "Select dog"
   },
   "dog": {
     "status": "Status",
@@ -94,7 +96,8 @@
     "selectThisDog": "Select",
     "selectedDog": "Selected",
     "rulesLink": "Read walk rules",
-    "warningTitle": "Important"
+    "warningTitle": "Important",
+    "titleWithDog": "Start walk with {{name}}"
   },
   "publicWalk": {
     "title": "Walk",

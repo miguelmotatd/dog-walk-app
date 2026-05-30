@@ -12,6 +12,7 @@ import PublicWalkPage from './pages/PublicWalkPage'
 import MyWalksPage from './pages/MyWalksPage'
 import CreateDogPage from './pages/CreateDogPage'
 import EditDogPage from './pages/EditDogPage'
+import EditWalkPage from './pages/EditWalkPage'
 import VolunteerStartWalkPage from './pages/VolunteerStartWalkPage'
 import ReportsPage from './pages/ReportsPage'
 
@@ -91,6 +92,14 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/walks/:walkId/edit" 
+          element={
+            <ProtectedRoute session={session}>
+              <EditWalkPage />
+            </ProtectedRoute>
+          } />
+
         <Route
           path="/reports"
           element={

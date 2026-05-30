@@ -21,6 +21,7 @@ export default function DashboardPage() {
   const [warningError, setWarningError] = useState('')
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [moreOpen, setMoreOpen] = useState(false)
+  const [volunteerName, setVolunteerName] = useState('')
 
   const [filters, setFilters] = useState({
     searchText: '',
@@ -42,6 +43,7 @@ export default function DashboardPage() {
     loadDogs()
     loadActiveWalks()
     loadWarningText()
+    loadVolunteerName()
   }, [])
 
   const filteredDogs = useMemo(() => filterDogs(dogs, filters), [dogs, filters])
@@ -96,6 +98,19 @@ export default function DashboardPage() {
     }
   }
 
+  const loadVolunteerName = async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+
+    const { data } = await supabase
+      .from('volunteer_profiles')
+      .select('name')
+      .eq('id', user.id)
+      .single()
+
+    if (data?.name) setVolunteerName(data.name)
+  }
+
   const saveWarningText = async () => {
     setSavingWarning(true)
     setWarningError('')
@@ -142,6 +157,11 @@ export default function DashboardPage() {
     await supabase.auth.signOut()
   }
 
+  const handleEditWalk = (walk) => {
+    const url = `/walks/${walk.walk_id}/edit?token=${walk.public_token}`
+    window.open(url, '_blank')
+  }
+
   const handleReturnWalk = async (walk) => {
     const confirmed = window.confirm(
       t('dashboard.confirmReturn', { dogName: walk.dog_name })
@@ -152,7 +172,7 @@ export default function DashboardPage() {
     const { error } = await supabase.rpc('return_walk', {
       p_walk_id: walk.walk_id,
       p_public_token: walk.public_token,
-      p_return_notes: t('dashboard.returnByVolunteer'),
+      p_return_notes: t('dashboard.returnByVolunteer', { volunteerName }),
     })
 
     if (error) {
@@ -303,7 +323,12 @@ export default function DashboardPage() {
                     {t('dashboard.expectedReturn')}:{' '}
                     {formatTime(walk.expected_return_at, i18n.language)}
                   </div>
-
+                  <button
+                    onClick={() => handleEditWalk(walk)}
+                    style={mobileEditWalkButtonStyle}
+                  >
+                    {t('dashboard.editWalk')}
+                  </button>
                   <button
                     onClick={() => handleReturnWalk(walk)}
                     style={mobileReturnButtonStyle}
@@ -351,12 +376,20 @@ export default function DashboardPage() {
                         </span>
                       </td>
                       <td style={tdStyle}>
-                        <button
-                          onClick={() => handleReturnWalk(walk)}
-                          style={returnButtonStyle}
-                        >
-                          {t('dashboard.returnDog')}
-                        </button>
+                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                          <button
+                            onClick={() => handleEditWalk(walk)}
+                            style={editWalkButtonStyle}
+                          >
+                            {t('dashboard.editWalk')}
+                          </button>
+                          <button
+                            onClick={() => handleReturnWalk(walk)}
+                            style={returnButtonStyle}
+                          >
+                            {t('dashboard.returnDog')}
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -730,6 +763,19 @@ const mobileReturnButtonStyle = {
   fontSize: '1rem',
 }
 
+const mobileEditWalkButtonStyle = {
+  marginTop: '0.9rem',
+  width: '100%',
+  background: '#fff8ef',
+  color: '#6f451f',
+  border: '1px solid #e4d8c8',
+  padding: '0.85rem 1rem',
+  borderRadius: '999px',
+  cursor: 'pointer',
+  fontWeight: 800,
+  fontSize: '1rem',
+}
+
 const primaryLinkStyle = {
   display: 'inline-block',
   padding: '0.65rem 0.95rem',
@@ -816,6 +862,16 @@ const editLinkStyle = {
   color: '#6f451f',
   textDecoration: 'none',
   border: '1px solid #e4d8c8',
+  fontWeight: 700,
+}
+
+const editWalkButtonStyle = {
+  background: '#fff8ef',
+  color: '#6f451f',
+  border: '1px solid #e4d8c8',
+  padding: '0.55rem 0.8rem',
+  borderRadius: '999px',
+  cursor: 'pointer',
   fontWeight: 700,
 }
 
