@@ -2,73 +2,73 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import LanguageSwitcher from '../components/LanguageSwitcher'
+import { useNavigate } from 'react-router-dom'
 
-export default function LoginPage() {
+
+export default function RegisterPage() {
   const { t } = useTranslation()
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [infoMessage, setInfoMessage] = useState('')
-  const [showReset, setShowReset] = useState(false)
+  const [showReset] = useState(false)
+  const navigate = useNavigate()
+  
+  
+  const formatName = (name) => {
+    return name
+      .trim()
+      .split(/\s+/)
+      .map(
+        word =>
+          word.charAt(0).toUpperCase() +
+          word.slice(1).toLowerCase()
+      )
+      .join(' ')
+  }
 
-  const handleLogin = async (e) => {
+  const handleBackToLogin = () => {
+    navigate('/dashboard')
+  }
+  
+  const handleRegister = async (e) => {
     e.preventDefault()
     setLoading(true)
     setErrorMessage('')
     setInfoMessage('')
 
+    const formatedName = formatName(name)
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signUp( {
         email: email.trim(),
         password,
+        options: {
+          data: {
+            name: formatedName,
+          },
+        },
       })
-      
+
+      console.log('Register data:', data)
+      console.log('Register error:', error)
+
       if (error) {
         setErrorMessage(error.message)
         return
       }
+
+      setInfoMessage('Utilizador criado com sucesso.')
+      // Se tiveres router, podes redirecionar aqui.
+      // Exemplo:
+      // navigate('/dashboard')
     } catch (err) {
-      console.error('Erro inesperado no login:', err)
-      setErrorMessage('Erro inesperado ao iniciar sessão.')
+      console.error('Erro inesperado no registro:', err)
+      setErrorMessage('Erro inesperado ao registrar.')
     } finally {
       setLoading(false)
     }
-  }
-
-  const handleResetPassword = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setErrorMessage('')
-    setInfoMessage('')
-
-    try {
-      const redirectTo =
-      window.location.hostname === 'localhost'
-        ? 'http://localhost:5173/reset-password'
-        : `${window.location.origin}/reset-password`
-
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo,
-    })
-    if (error) {
-      setErrorMessage(error.message)
-    } else {
-      setInfoMessage(t('login.resetEmailSent'))
-    }
-
-    } catch (err) {
-      console.error('Erro inesperado no reset password:', err)
-      setErrorMessage('Erro inesperado ao enviar email de recuperação.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const switchMode = (mode) => {
-    setShowReset(mode === 'reset')
-    setErrorMessage('')
-    setInfoMessage('')
   }
 
   return (
@@ -85,11 +85,12 @@ export default function LoginPage() {
 
         <div style={introStyle}>
           <h1 style={titleStyle}>
-            {showReset ? t('login.forgotPassword') : t('login.title')}
+            {t('register.title')}
           </h1>
+
           <p style={subtitleStyle}>
             {showReset
-              ? t(
+              ? t(  
                   'login.resetSubtitle',
                   'Enter your email and we will send you a password reset link.'
                 )
@@ -99,11 +100,10 @@ export default function LoginPage() {
                 )}
           </p>
         </div>
-
-        {!showReset ? (
-          <form onSubmit={handleLogin} style={formStyle}>
+          <form onSubmit={handleRegister} style={formStyle}>
             <div>
               <label style={labelStyle}>{t('login.email')}</label>
+
               <input
                 type="email"
                 value={email}
@@ -114,8 +114,21 @@ export default function LoginPage() {
               />
             </div>
 
+            <div> 
+             <label style={labelStyle}> {t('login.name')} </label>
+              <input
+                type="text"
+                value={name}  
+                onChange={(e) => setName(e.target.value)}
+                style={inputStyle}
+                autoComplete="current-name"
+                required
+              />
+            </div>
+
             <div>
               <label style={labelStyle}>{t('login.password')}</label>
+
               <input
                 type="password"
                 value={password}
@@ -130,47 +143,17 @@ export default function LoginPage() {
             {infoMessage && <div style={successBoxStyle}>{infoMessage}</div>}
 
             <button type="submit" disabled={loading} style={primaryButtonStyle}>
-              {loading ? t('login.loggingIn') : t('login.login')}
+              {loading ? t('register.registering') : t('register.register')}
             </button>
 
             <button
               type="button"
-              onClick={() => switchMode('reset')}
+              onClick={handleBackToLogin}
               style={linkButtonStyle}
             >
-              {t('login.forgotPassword')}
+              {t('dashboard.returnDashboard')}
             </button>
           </form>
-        ) : (
-          <form onSubmit={handleResetPassword} style={formStyle}>
-            <div>
-              <label style={labelStyle}>{t('login.email')}</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                style={inputStyle}
-                autoComplete="email"
-                required
-              />
-            </div>
-
-            {errorMessage && <div style={errorBoxStyle}>{errorMessage}</div>}
-            {infoMessage && <div style={successBoxStyle}>{infoMessage}</div>}
-
-            <button type="submit" disabled={loading} style={primaryButtonStyle}>
-              {loading ? t('login.sending') : t('login.sendResetEmail')}
-            </button>
-
-            <button
-              type="button"
-              onClick={() => switchMode('login')}
-              style={linkButtonStyle}
-            >
-              {t('login.backToLogin')}
-            </button>
-          </form>
-        )}
       </div>
     </div>
   )

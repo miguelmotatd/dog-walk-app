@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import DogCard from '../components/DogCard'
@@ -7,6 +7,7 @@ import LanguageSwitcher from '../components/LanguageSwitcher'
 import { useMemo } from 'react'
 import DogFilters from '../components/DogFilters'
 import { filterDogs } from '../utils/dogFilters'
+import { setupWalkNotifications, registerServiceWorker } from '../lib/notifications'
 
 export default function StartWalkPage() {
   const { t } = useTranslation()
@@ -82,6 +83,10 @@ export default function StartWalkPage() {
     loadWarningText()
   }, [])
 
+  useEffect(() => {
+    registerServiceWorker()
+  }, [])
+
   const nameInputRef = useRef(null)
   const selectedDog = dogs.find((d) => String(d.id) === String(dogId))
 
@@ -132,8 +137,17 @@ export default function StartWalkPage() {
     if (walk?.person_public_token) {
       localStorage.setItem('person_public_token', walk.person_public_token)
     }
-
+    console.log('person_public_token:', walk.person_public_token)
     if (walk) {
+
+       await setupWalkNotifications({
+        walkId: walk.walk_id,
+        token: walk.public_token,
+        dogName: selectedDog?.name ?? 'o cão',
+        expectedReturnAt: new Date(expectedReturnAt).toISOString(),
+        personPublicToken: walk.person_public_token, 
+      })
+
       navigate(`/walk/${walk.walk_id}?token=${walk.public_token}`)
       return
     }
@@ -166,6 +180,10 @@ export default function StartWalkPage() {
               {t('startWalk.rulesLink', 'Read walk rules')}
             </a>
 
+            <Link to="/my-walks" style={mobileRulesLinkStyle}>
+              {t('myWalks.title')}
+            </Link>
+
             <LanguageSwitcher />
           </div>
         </div>
@@ -191,6 +209,10 @@ export default function StartWalkPage() {
             >
               {t('startWalk.rulesLink', 'Read walk rules')}
             </a>
+
+            <Link to="/my-walks" style={rulesLinkStyle}>
+              {t('myWalks.title')}
+            </Link>
 
             <LanguageSwitcher />
           </div>
@@ -394,14 +416,15 @@ const mobileTitleContainerStyle = {
 }
 
 const mobileHeaderActionsStyle = {
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
+  display: 'flex',
+  flexWrap: 'wrap',
   gap: '0.75rem',
   marginTop: '0.5rem',
 }
 
 const mobileRulesLinkStyle = {
   display: 'block',
+  flex: '1 1 auto',
   padding: '0.65rem 0.95rem',
   borderRadius: '999px',
   background: '#fff8ef',

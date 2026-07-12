@@ -14,8 +14,9 @@
     "portuguese": "Português"
   },
   "login": {
-    "title": "Volunteer Login {{volunteerName}}",
+    "title": "Volunteer Login",
     "email": "Email",
+    "name": "Name",
     "password": "Password",
     "login": "Login",
     "loggingIn": "Logging in...",
@@ -26,6 +27,13 @@
     "resetEmailSent": "Password reset email sent. Please check your inbox.",
     "subtitle": "Access the volunteer dashboard to manage walks and dogs.",
     "resetSubtitle": "Enter your email and we will send you a password reset link."
+  },
+  "register": {
+    "title": "Volunteer Registration",
+    "createAccount": "Create personal account",
+    "register": "Register",
+    "registering": "Registering...",
+    "alreadyHaveAccount": "Already have an account?"
   },
   "resetPassword": {
     "title": "Reset password",
@@ -64,7 +72,8 @@
     "reportsTitle": "Reports",
     "moreOptions": "More options",
     "editWalk": "Edit walk",
-    "selectDog": "Select dog"
+    "selectDog": "Select dog",
+    "returnDashboard": "Return to dashboard"
   },
   "dog": {
     "status": "Status",
@@ -209,5 +218,13 @@
     "late": "Late",
     "onTime": "On time",
     "duration": "Duration"
+  },
+  "pwaInstall": {
+    "title": "Install Passeios AZL",
+    "androidSubtitle": "Add the app to your home screen to receive walk reminders even with the browser closed.",
+    "installButton": "Install app",
+    "iosStep1": "Tap the Share icon (square with an arrow) at the bottom of Safari.",
+    "iosStep2": "Scroll down and tap \"Add to Home Screen\".",
+    "iosStep3": "Tap \"Add\" — the app icon will appear on your home screen as \"Passeios AZL\"."
   }
 }

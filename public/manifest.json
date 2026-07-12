@@ -1,0 +1,50 @@
+{
+  "name": "Passeios AZL",
+  "short_name": "Passeios AZL",
+  "description": "Gestão de passeios de cães — Associação Zoófila de Leiria",
+  "start_url": "/start-walk",
+  "display": "standalone",
+  "background_color": "#f7f3ec",
+  "theme_color": "#8a5a2b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Iniciar Passeio",
+      "short_name": "Passeio AZL",
+      "url": "/start-walk",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Os meus passeios",
+      "short_name": "Passeios AZL",
+      "url": "/my-walks",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}

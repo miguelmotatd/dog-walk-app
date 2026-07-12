@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import LanguageSwitcher from '../components/LanguageSwitcher'
+import { cancelWalkReminder } from '../lib/notifications'
 
 export default function PublicWalkPage() {
   const { t, i18n } = useTranslation()
@@ -118,6 +119,8 @@ export default function PublicWalkPage() {
       return
     }
 
+    cancelWalkReminder(Number(walkId))
+    
     await loadPage()
     setReturningWalk(false)
   }
@@ -347,8 +350,15 @@ function InfoRow({ label, value, valueStyle = {} }) {
 
 function formatDateTime(value, language) {
   if (!value) return '-'
-  return new Date(value).toLocaleString(language === 'pt' ? 'pt-PT' : 'en-US')
-}
+  return new Date(value).toLocaleString(language === 'pt' ? 'pt-PT' : 'en-US', 
+    {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+  }
 
 const pageStyle = {
   padding: '2rem',

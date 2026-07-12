@@ -246,6 +246,10 @@ export default function DashboardPage() {
                   {t('dogForm.create')}
                 </Link>
 
+                <Link to="/register" style={mobileMenuItemStyle}>
+                 {t('register.createAccount')}
+                </Link>
+                
                 <div style={mobileMenuFooterStyle}>
                   <LanguageSwitcher />
 
@@ -499,8 +503,15 @@ export default function DashboardPage() {
 
 function formatDateTime(value, language) {
   if (!value) return '-'
-  return new Date(value).toLocaleString(language === 'pt' ? 'pt-PT' : 'en-US')
-}
+  return new Date(value).toLocaleString(language === 'pt' ? 'pt-PT' : 'en-US', 
+    {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+  }
 
 function formatTime(value, language) {
   if (!value) return '-'

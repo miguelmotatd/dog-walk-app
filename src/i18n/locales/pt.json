@@ -14,8 +14,9 @@
     "portuguese": "Português"
   },
   "login": {
-    "title": "Login de Voluntário {{volunteerName}}",
+    "title": "Login de Voluntário",
     "email": "Email",
+    "name": "Nome",
     "password": "Palavra-passe",
     "login": "Entrar",
     "loggingIn": "A entrar...",
@@ -26,6 +27,13 @@
     "resetEmailSent": "Email de recuperação enviado. Verifique a sua caixa de entrada.",
     "subtitle": "Aceda ao painel de voluntários para gerir passeios e cães.",
     "resetSubtitle": "Insira o seu email e enviaremos um link para redefinir a palavra-passe."
+  },
+  "register": {
+    "title": "Registo de Voluntário",
+    "createAccount": "Criar conta pessoal",
+    "register": "Registar",
+    "registering": "A registar...",
+    "alreadyHaveAccount": "Já tem uma conta?"
   },
   "resetPassword": {
     "title": "Redefinir palavra-passe",
@@ -64,7 +72,8 @@
     "reportsTitle": "Relatórios",
     "moreOptions": "Mais opções",
     "editWalk": "Editar passeio",
-    "selectDog": "Selecionar cão"
+    "selectDog": "Selecionar cão",
+    "returnDashboard": "Regressar"
   },
   "dog": {
     "status": "Estado",
@@ -210,5 +219,13 @@
     "late": "Atrasado",
     "onTime": "A tempo",
     "duration": "Duração"
+  },
+  "pwaInstall": {
+    "title": "Instalar Passeios AZL",
+    "androidSubtitle": "Adicione a app ao ecrã principal para receber lembretes de passeios mesmo com o browser fechado.",
+    "installButton": "Instalar app",
+    "iosStep1": "Toque no ícone de Partilhar (quadrado com seta) na barra do Safari.",
+    "iosStep2": "Deslize para baixo e toque em \"Adicionar ao Ecrã Principal\".",
+    "iosStep3": "Toque em \"Adicionar\" — o ícone vai aparecer no seu ecrã principal como \"Passeios AZL\"."
   }
 }

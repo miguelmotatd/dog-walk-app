@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
@@ -26,6 +26,11 @@ export default function EditWalkPage() {
     returnNotes: '',
   })
 
+  const isReturned = useMemo(
+    () => formData.status === 'returned' || Boolean(walk?.returned_at),
+    [formData.status, walk]
+  )
+
   useEffect(() => {
     loadWalk()
   }, [walkId])
@@ -47,7 +52,6 @@ export default function EditWalkPage() {
           status,
           checkout_notes,
           return_notes,
-          public_token,
           dogs (
             id,
             name,
@@ -80,9 +84,9 @@ export default function EditWalkPage() {
         dogId: walkData.dog_id || '',
         personName: walkData.people?.name || '',
         phone: walkData.people?.phone || '',
-        expectedReturnAt: formatDateTimeLocal(walkData.expected_return_at),
+        expectedReturnAt: formatDateTime(walkData.expected_return_at, 'en'),
         returnedAt: walkData.returned_at
-          ? formatDateTimeLocal(walkData.returned_at)
+          ? formatDateTime(walkData.returned_at, 'en')
           : '',
         status: walkData.status || 'active',
         checkoutNotes: walkData.checkout_notes || '',
@@ -280,23 +284,28 @@ export default function EditWalkPage() {
                 type="datetime-local"
                 value={formData.expectedReturnAt}
                 onChange={(e) => handleChange('expectedReturnAt', e.target.value)}
-                style={inputStyle}
+                disabled
+                style={dateTimeInputStyle}
               />
             </div>
 
-            <div>
-              <label htmlFor="walk-returned-at" style={labelStyle}>
-                {t('publicWalk.returnedAt')}
-              </label>
-              <input
-                id="walk-returned-at"
-                name="returnedAt"
-                type="datetime-local"
-                value={formData.returnedAt}
-                onChange={(e) => handleChange('returnedAt', e.target.value)}
-                style={inputStyle}
-              />
-            </div>
+            {/* Só faz sentido mostrar isto quando o passeio já regressou */}
+            {isReturned && (
+              <div>
+                <label htmlFor="walk-returned-at" style={labelStyle}>
+                  {t('publicWalk.returnedAt')}
+                </label>
+                <input
+                  id="walk-returned-at"
+                  name="returnedAt"
+                  type="datetime-local"
+                  value={formData.returnedAt}
+                  onChange={(e) => handleChange('returnedAt', e.target.value)}
+                  disabled
+                  style={dateTimeInputStyle}
+                />
+              </div>
+            )}
 
             <div>
               <label htmlFor="walk-status" style={labelStyle}>
@@ -329,19 +338,22 @@ export default function EditWalkPage() {
             />
           </div>
 
-          <div>
-            <label htmlFor="walk-return-notes" style={labelStyle}>
-              {t('publicWalk.returnNotes')}
-            </label>
-            <textarea
-              id="walk-return-notes"
-              name="returnNotes"
-              value={formData.returnNotes}
-              onChange={(e) => handleChange('returnNotes', e.target.value)}
-              rows={3}
-              style={textareaStyle}
-            />
-          </div>
+          {/* Notas de regresso só fazem sentido depois do cão ter regressado */}
+          {isReturned && (
+            <div>
+              <label htmlFor="walk-return-notes" style={labelStyle}>
+                {t('publicWalk.returnNotes')}
+              </label>
+              <textarea
+                id="walk-return-notes"
+                name="returnNotes"
+                value={formData.returnNotes}
+                onChange={(e) => handleChange('returnNotes', e.target.value)}
+                rows={3}
+                style={textareaStyle}
+              />
+            </div>
+          )}
 
           {errorMessage && <p style={errorBoxStyle}>{errorMessage}</p>}
 
@@ -367,16 +379,19 @@ export default function EditWalkPage() {
   )
 }
 
-function formatDateTimeLocal(dateString) {
-  if (!dateString) return ''
-  const date = new Date(dateString)
-  const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-  const hours = String(date.getHours()).padStart(2, '0')
-  const minutes = String(date.getMinutes()).padStart(2, '0')
-  return `${year}-${month}-${day}T${hours}:${minutes}`
-}
+function formatDateTime(value, language) {
+  if (!value) return '-'
+  return new Date(value).toLocaleString(language === 'pt' ? 'pt-PT' : 'en-US', 
+    {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+  }
+
+
 
 const pageStyle = {
   padding: '2rem',
@@ -432,19 +447,33 @@ const inputStyle = {
   border: '1px solid #d6c8b8',
   borderRadius: '12px',
   fontSize: '1rem',
+  fontWeight: 700,
   boxSizing: 'border-box',
   background: '#fff',
 }
 
+const readOnlyInputStyle = {
+  ...inputStyle,
+  background: '#f5f5f5',
+  color: '#666',
+  cursor: 'not-allowed',
+}
+
+// Estilo dedicado para inputs datetime-local: o browser renderiza estes
+// campos com altura própria (por causa dos controlos de calendário/relógio),
+// por isso fixamos altura e padding para ficarem alinhados com os outros campos.
+const dateTimeInputStyle = {
+  ...readOnlyInputStyle,
+  height: '3.1rem',
+  padding: '0 0.8rem',
+  lineHeight: '3.1rem',
+  fontWeight: 700,
+}
+
 const textareaStyle = {
-  width: '100%',
-  padding: '0.8rem',
-  border: '1px solid #d6c8b8',
-  borderRadius: '12px',
-  fontSize: '1rem',
-  boxSizing: 'border-box',
+  ...inputStyle,
+  fontWeight: 400,
   resize: 'vertical',
-  background: '#fff',
 }
 
 const errorBoxStyle = {
@@ -461,26 +490,29 @@ const actionsStyle = {
   flexWrap: 'wrap',
 }
 
+// Base partilhada pelos botões — evita repetir padding/borderRadius/fontWeight
+const botaoBaseStyle = {
+  padding: '0.9rem 1.2rem',
+  borderRadius: '999px',
+  fontWeight: 700,
+}
+
 const primaryButtonStyle = {
+  ...botaoBaseStyle,
   background: '#8a5a2b',
   color: '#fff',
   border: 'none',
-  padding: '0.9rem 1.2rem',
-  borderRadius: '999px',
   fontSize: '1rem',
-  fontWeight: 700,
   cursor: 'pointer',
 }
 
 const secondaryButtonStyle = {
+  ...botaoBaseStyle,
   display: 'inline-block',
-  padding: '0.9rem 1.2rem',
-  borderRadius: '999px',
   background: '#fff8ef',
   color: '#6f451f',
   textDecoration: 'none',
   border: '1px solid #e4d8c8',
-  fontWeight: 700,
   textAlign: 'center',
 }
 

@@ -113,17 +113,6 @@ const cardStyle = {
   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.06)',
 }
 
-const linkStyle = {
-  display: 'inline-block',
-  padding: '0.55rem 0.85rem',
-  borderRadius: '999px',
-  background: '#fff8ef',
-  color: '#6f451f',
-  textDecoration: 'none',
-  border: '1px solid #e4d8c8',
-  fontWeight: 700,
-}
-
 const backLinkStyle = {
   display: 'inline-block',
   marginTop: '0.75rem',
