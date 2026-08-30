@@ -70,6 +70,7 @@
     "startWalkWarning": "Aviso do início do passeio",
     "clearWarning": "Limpar aviso",
     "reportsTitle": "Relatórios",
+    "auxiliaryWorks": "Trabalho Auxiliar",
     "moreOptions": "Mais opções",
     "editWalk": "Editar passeio",
     "selectDog": "Selecionar cão",
@@ -328,5 +329,47 @@
     "markPaid": "Marcar como pago",
     "markWalked": "Marcar como passeado",
     "walked": "Passeado"
+  },
+  "auxiliaryWorks": {
+    "title": "Trabalho Auxiliar",
+    "createTitle": "Novo trabalho auxiliar",
+    "name": "Nome",
+    "description": "Descrição",
+    "volunteerCount": "Voluntários",
+    "create": "Criar",
+    "creating": "A criar...",
+    "noWorks": "Nenhum tipo de trabalho auxiliar encontrado.",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "viewHelpers": "Ver voluntários",
+    "delete": "Eliminar",
+    "confirmDelete": "Eliminar este trabalho auxiliar? As associações com voluntários também serão removidas."
+  },
+  "auxiliaryWorkDetail": {
+    "backLink": "Voltar a trabalho auxiliar",
+    "helpersTitle": "Voluntários disponíveis para {{name}}",
+    "noHelpers": "Ainda ninguém se inscreveu para isto.",
+    "name": "Nome",
+    "phone": "Telefone",
+    "email": "Email",
+    "notes": "Notas"
+  },
+  "volunteerSignup": {
+    "title": "Seja Voluntário",
+    "subtitle": "Diga-nos como quer ajudar e entraremos em contacto quando precisarmos.",
+    "loadingWorks": "A carregar formas de ajudar...",
+    "noWorks": "De momento não há nenhum trabalho auxiliar disponível para inscrição. Volte mais tarde!",
+    "yourName": "O seu nome",
+    "phoneNumber": "Número de telefone",
+    "emailOptional": "Email (opcional)",
+    "notesOptional": "Notas (opcional)",
+    "notesPlaceholder": "Algo que devamos saber...",
+    "waysToHelp": "Como gostaria de ajudar?",
+    "selectAtLeastOne": "Selecione pelo menos uma opção",
+    "submit": "Inscrever-me",
+    "submitting": "A inscrever...",
+    "confirmationTitle": "Obrigado pela sua inscrição!",
+    "confirmationBody": "Guardámos os seus dados e entraremos em contacto quando precisarmos de ajuda com o que escolheu.",
+    "backToTop": "Inscrever outra pessoa"
   }
 }
