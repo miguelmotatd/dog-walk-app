@@ -73,7 +73,8 @@
     "moreOptions": "More options",
     "editWalk": "Edit walk",
     "selectDog": "Select dog",
-    "returnDashboard": "Return to dashboard"
+    "returnDashboard": "Return to dashboard",
+    "caminhadas": "Caminhadas"
   },
   "dog": {
     "status": "Status",
@@ -226,5 +227,105 @@
     "iosStep1": "Tap the Share icon (square with an arrow) at the bottom of Safari.",
     "iosStep2": "Scroll down and tap \"Add to Home Screen\".",
     "iosStep3": "Tap \"Add\" — the app icon will appear on your home screen as \"Passeios AZL\"."
+  },
+  "caminhada": {
+    "title": "Caminhada",
+    "status": {
+      "draft": "Draft",
+      "open": "Open",
+      "closed": "Closed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "reservationStatus": {
+      "reserved": "Reserved",
+      "checked_in": "Checked in",
+      "cancelled": "Cancelled",
+      "no_show": "No show"
+    },
+    "paymentStatus": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "waived": "Waived"
+    },
+    "dogStatus": {
+      "available": "Available",
+      "reserved": "Reserved",
+      "unavailable": "Unavailable",
+      "walked": "Walked"
+    }
+  },
+  "caminhadaRegister": {
+    "subtitle": "Register for the group dog walk and pick the dog you want to walk.",
+    "noneOpen": "There is no open caminhada right now. Check back soon!",
+    "loadingEvent": "Loading caminhada...",
+    "loadingDogs": "Loading available dogs...",
+    "noDogs": "No dogs available for this caminhada yet.",
+    "dog": "Dog",
+    "selectThisDog": "Select",
+    "selectedDog": "Selected",
+    "yourName": "Your name",
+    "phoneNumber": "Phone number",
+    "emailOptional": "Email (optional)",
+    "participantCount": "Number of participants",
+    "notesOptional": "Notes (optional)",
+    "notesPlaceholder": "Anything we should know...",
+    "submit": "Register",
+    "submitting": "Registering...",
+    "eventDate": "Date",
+    "eventTime": "Time",
+    "eventLocation": "Location",
+    "confirmationTitle": "You're registered!",
+    "confirmationBody": "You're registered to walk {{dogName}}.",
+    "backToTop": "Register another dog"
+  },
+  "caminhadaManage": {
+    "title": "Caminhadas",
+    "createTitle": "New caminhada",
+    "eventTitle": "Title",
+    "eventDate": "Date",
+    "startTime": "Start time",
+    "location": "Location",
+    "create": "Create caminhada",
+    "creating": "Creating...",
+    "noEvents": "No caminhadas found.",
+    "manage": "Manage",
+    "checklist": "Checklist",
+    "status": "Status",
+    "dogPoolTitle": "Dog pool",
+    "addDogToPool": "Add to pool",
+    "removeDog": "Remove",
+    "poolEmpty": "No dogs added to this caminhada yet.",
+    "reservationsTitle": "Registrations",
+    "reservationsEmpty": "No registrations yet.",
+    "addManualTitle": "Add registration manually",
+    "walker": "Walker",
+    "phone": "Phone",
+    "participantCount": "People",
+    "donationAmount": "Donation (€)",
+    "paymentStatus": "Payment",
+    "souvenirDelivered": "Souvenir delivered",
+    "notes": "Notes",
+    "reservationStatus": "Status",
+    "markCheckedIn": "Check in",
+    "markCancelled": "Cancel",
+    "markNoShow": "No show",
+    "markReserved": "Reopen",
+    "delete": "Delete",
+    "confirmDelete": "Delete this registration?",
+    "cannotRemoveDog": "This dog still has registrations for this caminhada. Cancel or delete them first."
+  },
+  "caminhadaChecklist": {
+    "title": "Caminhada checklist",
+    "subtitle": "Everyone reserved for this caminhada, ready to check in.",
+    "totalReserved": "Reserved dogs",
+    "checkedInCount": "Checked in",
+    "pendingPayments": "Pending payments",
+    "empty": "No reserved dogs for this caminhada.",
+    "checkIn": "Check in",
+    "checkedIn": "Checked in",
+    "markPaid": "Mark paid",
+    "markWalked": "Mark as walked",
+    "walked": "Walked"
   }
 }

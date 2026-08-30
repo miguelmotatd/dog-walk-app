@@ -242,6 +242,10 @@ export default function DashboardPage() {
                   {t('dashboard.reportsTitle')}
                 </Link>
 
+                <Link to="/caminhadas" style={mobileMenuItemStyle}>
+                  {t('dashboard.caminhadas')}
+                </Link>
+
                 <Link to="/dogs/new" style={mobileMenuItemStyle}>
                   {t('dogForm.create')}
                 </Link>
@@ -264,6 +268,10 @@ export default function DashboardPage() {
           <div style={topActionsStyle}>
             <Link to="/reports" style={secondaryLinkStyle}>
               {t('dashboard.reportsTitle')}
+            </Link>
+
+            <Link to="/caminhadas" style={secondaryLinkStyle}>
+              {t('dashboard.caminhadas')}
             </Link>
 
             <Link to="/walks/new" style={primaryLinkStyle}>
