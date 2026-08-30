@@ -17,6 +17,10 @@ import EditDogPage from './pages/EditDogPage'
 import EditWalkPage from './pages/EditWalkPage'
 import VolunteerStartWalkPage from './pages/VolunteerStartWalkPage'
 import ReportsPage from './pages/ReportsPage'
+import CaminhadaRegisterPage from './pages/CaminhadaRegisterPage'
+import CaminhadasListPage from './pages/CaminhadasListPage'
+import CaminhadaManagePage from './pages/CaminhadaManagePage'
+import CaminhadaChecklistPage from './pages/CaminhadaChecklistPage'
 
 export default function App() {
   const [session, setSession] = useState(undefined)
@@ -48,6 +52,7 @@ export default function App() {
           <Route path="/start-walk" element={<StartWalkPage />} />
           <Route path="/walk/:walkId" element={<PublicWalkPage />} />
           <Route path="/my-walks" element={<MyWalksPage />} />
+          <Route path="/caminhada" element={<CaminhadaRegisterPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route
             path="/login"
@@ -106,6 +111,30 @@ export default function App() {
             element={
               <ProtectedRoute session={session}>
                 <ReportsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/caminhadas"
+            element={
+              <ProtectedRoute session={session}>
+                <CaminhadasListPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/caminhadas/:caminhadaId"
+            element={
+              <ProtectedRoute session={session}>
+                <CaminhadaManagePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/caminhadas/:caminhadaId/checklist"
+            element={
+              <ProtectedRoute session={session}>
+                <CaminhadaChecklistPage />
               </ProtectedRoute>
             }
           />

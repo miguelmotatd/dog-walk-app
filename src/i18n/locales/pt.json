@@ -73,7 +73,8 @@
     "moreOptions": "Mais opções",
     "editWalk": "Editar passeio",
     "selectDog": "Selecionar cão",
-    "returnDashboard": "Regressar"
+    "returnDashboard": "Regressar",
+    "caminhadas": "Cãominhadas"
   },
   "dog": {
     "status": "Estado",
@@ -227,5 +228,105 @@
     "iosStep1": "Toque no ícone de Partilhar (quadrado com seta) na barra do Safari.",
     "iosStep2": "Deslize para baixo e toque em \"Adicionar ao Ecrã Principal\".",
     "iosStep3": "Toque em \"Adicionar\" — o ícone vai aparecer no seu ecrã principal como \"Passeios AZL\"."
+  },
+  "caminhada": {
+    "title": "Cãominhada",
+    "status": {
+      "draft": "Rascunho",
+      "open": "Aberta",
+      "closed": "Fechada",
+      "completed": "Concluída",
+      "cancelled": "Cancelada"
+    },
+    "reservationStatus": {
+      "reserved": "Reservado",
+      "checked_in": "Check-in feito",
+      "cancelled": "Cancelado",
+      "no_show": "Faltou"
+    },
+    "paymentStatus": {
+      "pending": "Pendente",
+      "paid": "Pago",
+      "waived": "Dispensado"
+    },
+    "dogStatus": {
+      "available": "Disponível",
+      "reserved": "Reservado",
+      "unavailable": "Indisponível",
+      "walked": "Passeado"
+    }
+  },
+  "caminhadaRegister": {
+    "subtitle": "Inscreva-se na caminhada em grupo e escolha o cão que quer passear.",
+    "noneOpen": "Não há nenhuma caminhada aberta neste momento. Volte mais tarde!",
+    "loadingEvent": "A carregar caminhada...",
+    "loadingDogs": "A carregar cães disponíveis...",
+    "noDogs": "Ainda não há cães disponíveis para esta caminhada.",
+    "dog": "Cão",
+    "selectThisDog": "Selecionar",
+    "selectedDog": "Selecionado",
+    "yourName": "O seu nome",
+    "phoneNumber": "Número de telefone",
+    "emailOptional": "Email (opcional)",
+    "participantCount": "Número de participantes",
+    "notesOptional": "Notas (opcional)",
+    "notesPlaceholder": "Algo que devamos saber...",
+    "submit": "Inscrever",
+    "submitting": "A inscrever...",
+    "eventDate": "Data",
+    "eventTime": "Hora",
+    "eventLocation": "Local",
+    "confirmationTitle": "Inscrição confirmada!",
+    "confirmationBody": "Está inscrito para passear o(a) {{dogName}}.",
+    "backToTop": "Inscrever outro cão"
+  },
+  "caminhadaManage": {
+    "title": "Cãominhadas",
+    "createTitle": "Nova caminhada",
+    "eventTitle": "Título",
+    "eventDate": "Data",
+    "startTime": "Hora de início",
+    "location": "Local",
+    "create": "Criar caminhada",
+    "creating": "A criar...",
+    "noEvents": "Nenhuma caminhada encontrada.",
+    "manage": "Gerir",
+    "checklist": "Checklist",
+    "status": "Estado",
+    "dogPoolTitle": "Cães da caminhada",
+    "addDogToPool": "Adicionar",
+    "removeDog": "Remover",
+    "poolEmpty": "Ainda não foram adicionados cães a esta caminhada.",
+    "reservationsTitle": "Inscrições",
+    "reservationsEmpty": "Ainda não há inscrições.",
+    "addManualTitle": "Adicionar inscrição manualmente",
+    "walker": "Pessoa",
+    "phone": "Telefone",
+    "participantCount": "Pessoas",
+    "donationAmount": "Donativo (€)",
+    "paymentStatus": "Pagamento",
+    "souvenirDelivered": "Lembrança entregue",
+    "notes": "Notas",
+    "reservationStatus": "Estado",
+    "markCheckedIn": "Fazer check-in",
+    "markCancelled": "Cancelar",
+    "markNoShow": "Marcar falta",
+    "markReserved": "Reabrir",
+    "delete": "Eliminar",
+    "confirmDelete": "Eliminar esta inscrição?",
+    "cannotRemoveDog": "Este cão ainda tem inscrições nesta caminhada. Cancele ou elimine-as primeiro."
+  },
+  "caminhadaChecklist": {
+    "title": "Checklist da caminhada",
+    "subtitle": "Todos os inscritos nesta caminhada, prontos para check-in.",
+    "totalReserved": "Cães reservados",
+    "checkedInCount": "Check-in feito",
+    "pendingPayments": "Pagamentos pendentes",
+    "empty": "Sem cães reservados para esta caminhada.",
+    "checkIn": "Check-in",
+    "checkedIn": "Check-in feito",
+    "markPaid": "Marcar como pago",
+    "markWalked": "Marcar como passeado",
+    "walked": "Passeado"
   }
 }
