@@ -21,6 +21,9 @@ import CaminhadaRegisterPage from './pages/CaminhadaRegisterPage'
 import CaminhadasListPage from './pages/CaminhadasListPage'
 import CaminhadaManagePage from './pages/CaminhadaManagePage'
 import CaminhadaChecklistPage from './pages/CaminhadaChecklistPage'
+import VolunteerSignupPage from './pages/VolunteerSignupPage'
+import AuxiliaryWorksListPage from './pages/AuxiliaryWorksListPage'
+import AuxiliaryWorkDetailPage from './pages/AuxiliaryWorkDetailPage'
 
 export default function App() {
   const [session, setSession] = useState(undefined)
@@ -53,6 +56,7 @@ export default function App() {
           <Route path="/walk/:walkId" element={<PublicWalkPage />} />
           <Route path="/my-walks" element={<MyWalksPage />} />
           <Route path="/caminhada" element={<CaminhadaRegisterPage />} />
+          <Route path="/volunteer-signup" element={<VolunteerSignupPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route
             path="/login"
@@ -135,6 +139,22 @@ export default function App() {
             element={
               <ProtectedRoute session={session}>
                 <CaminhadaChecklistPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/auxiliary-works"
+            element={
+              <ProtectedRoute session={session}>
+                <AuxiliaryWorksListPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/auxiliary-works/:auxiliaryWorkId"
+            element={
+              <ProtectedRoute session={session}>
+                <AuxiliaryWorkDetailPage />
               </ProtectedRoute>
             }
           />

@@ -246,6 +246,10 @@ export default function DashboardPage() {
                   {t('dashboard.caminhadas')}
                 </Link>
 
+                <Link to="/auxiliary-works" style={mobileMenuItemStyle}>
+                  {t('dashboard.auxiliaryWorks')}
+                </Link>
+
                 <Link to="/dogs/new" style={mobileMenuItemStyle}>
                   {t('dogForm.create')}
                 </Link>
@@ -272,6 +276,10 @@ export default function DashboardPage() {
 
             <Link to="/caminhadas" style={secondaryLinkStyle}>
               {t('dashboard.caminhadas')}
+            </Link>
+
+            <Link to="/auxiliary-works" style={secondaryLinkStyle}>
+              {t('dashboard.auxiliaryWorks')}
             </Link>
 
             <Link to="/walks/new" style={primaryLinkStyle}>

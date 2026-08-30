@@ -70,6 +70,7 @@
     "startWalkWarning": "Start walk warning",
     "clearWarning": "Clear warning",
     "reportsTitle": "Reports",
+    "auxiliaryWorks": "Auxiliary Work",
     "moreOptions": "More options",
     "editWalk": "Edit walk",
     "selectDog": "Select dog",
@@ -327,5 +328,47 @@
     "markPaid": "Mark paid",
     "markWalked": "Mark as walked",
     "walked": "Walked"
+  },
+  "auxiliaryWorks": {
+    "title": "Auxiliary Work",
+    "createTitle": "New auxiliary work",
+    "name": "Name",
+    "description": "Description",
+    "volunteerCount": "Volunteers",
+    "create": "Create",
+    "creating": "Creating...",
+    "noWorks": "No auxiliary work types found.",
+    "active": "Active",
+    "inactive": "Inactive",
+    "viewHelpers": "View helpers",
+    "delete": "Delete",
+    "confirmDelete": "Delete this auxiliary work? Any helper links to it will also be removed."
+  },
+  "auxiliaryWorkDetail": {
+    "backLink": "Back to auxiliary work",
+    "helpersTitle": "Helpers available for {{name}}",
+    "noHelpers": "No helpers have signed up for this yet.",
+    "name": "Name",
+    "phone": "Phone",
+    "email": "Email",
+    "notes": "Notes"
+  },
+  "volunteerSignup": {
+    "title": "Become a Volunteer",
+    "subtitle": "Tell us how you'd like to help and we'll reach out when we need you.",
+    "loadingWorks": "Loading ways to help...",
+    "noWorks": "There's no auxiliary work open for signup right now. Check back soon!",
+    "yourName": "Your name",
+    "phoneNumber": "Phone number",
+    "emailOptional": "Email (optional)",
+    "notesOptional": "Notes (optional)",
+    "notesPlaceholder": "Anything we should know...",
+    "waysToHelp": "How would you like to help?",
+    "selectAtLeastOne": "Select at least one",
+    "submit": "Sign up",
+    "submitting": "Signing up...",
+    "confirmationTitle": "Thanks for signing up!",
+    "confirmationBody": "We've saved your info and will reach out when we need help with the things you picked.",
+    "backToTop": "Sign up someone else"
   }
 }
