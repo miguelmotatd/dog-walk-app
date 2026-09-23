@@ -357,6 +357,9 @@
   "volunteerSignup": {
     "title": "Seja Voluntário",
     "subtitle": "Diga-nos como quer ajudar e entraremos em contacto quando precisarmos.",
+    "introTitle": "Não precisas de fazer tudo para fazer a diferença.",
+    "introBody1": "Na AZL existem muitas formas de ajudar — algumas requerem apenas uma hora, outras uma manhã de vez em quando, e há também maneiras de contribuir sem ir ao canil.",
+    "introBody2": "Escolhe as opções que combinam contigo, indica-nos a tua disponibilidade e entraremos em contacto para explicar como funciona. Não estás a assumir um compromisso imediato: este é apenas o primeiro passo para encontrarmos a melhor forma de participares.",
     "loadingWorks": "A carregar formas de ajudar...",
     "noWorks": "De momento não há nenhum trabalho auxiliar disponível para inscrição. Volte mais tarde!",
     "yourName": "O seu nome",

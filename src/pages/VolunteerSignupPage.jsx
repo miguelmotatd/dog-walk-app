@@ -101,6 +101,16 @@ export default function VolunteerSignupPage() {
         </div>
       </div>
 
+      {!confirmation && (
+        <div style={introSectionStyle}>
+          <h2 style={introTitleStyle}>{t('volunteerSignup.introTitle')}</h2>
+          <p style={introBodyStyle}>{t('volunteerSignup.introBody1')}</p>
+          <p style={{ ...introBodyStyle, marginBottom: 0 }}>
+            {t('volunteerSignup.introBody2')}
+          </p>
+        </div>
+      )}
+
       {loadingWorks && <p>{t('volunteerSignup.loadingWorks')}</p>}
       {worksError && <p style={errorStyle}>{worksError}</p>}
 
@@ -259,6 +269,26 @@ const titleStyle = {
 const subtitleStyle = {
   marginTop: '0.5rem',
   color: '#555',
+}
+
+const introSectionStyle = {
+  border: '1px solid #e4d8c8',
+  borderRadius: '14px',
+  padding: '1.25rem',
+  background: '#fff',
+  marginBottom: '1.5rem',
+}
+
+const introTitleStyle = {
+  marginTop: 0,
+  marginBottom: '0.75rem',
+  color: '#6f451f',
+}
+
+const introBodyStyle = {
+  margin: '0 0 0.75rem 0',
+  color: '#555',
+  lineHeight: 1.5,
 }
 
 const sectionStyle = {
