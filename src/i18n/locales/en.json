@@ -356,6 +356,9 @@
   "volunteerSignup": {
     "title": "Become a Volunteer",
     "subtitle": "Tell us how you'd like to help and we'll reach out when we need you.",
+    "introTitle": "You don't have to do everything to make a difference.",
+    "introBody1": "At AZL there are many ways to help — some take just an hour, others an occasional morning, and there are also ways to contribute without visiting the shelter.",
+    "introBody2": "Pick the options that fit you, let us know your availability, and we'll get in touch to explain how it works. You're not committing to anything right away: this is just the first step toward finding the best way for you to get involved.",
     "loadingWorks": "Loading ways to help...",
     "noWorks": "There's no auxiliary work open for signup right now. Check back soon!",
     "yourName": "Your name",
